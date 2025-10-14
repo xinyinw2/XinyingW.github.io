@@ -1,0 +1,63 @@
+---
+title: "Xinying Wu"
+about:
+  template: solana
+  image: images/photo2.JPG
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/xinyingwu54
+    - icon: github
+      text: GitHub
+      href: https://github.com/xinyinw2
+    - icon: envelope
+      text: Email
+      href: mailto:yingwu472@gmail.com
+---
+
+<br>
+**Hello! Welcome my portfolio website.**
+<br>
+<br>
+
+## About Me
+
+Master of Science in Business Analytics candidate at the University of California, Irvine’s Paul Merage School of Business with a strong foundation in Business Administration and Computer Information Science from the University of Oregon.
+
+I bring hands-on experience in data analytics, process optimization, and data-driven decision support. As a Business Analyst at Edwards Lifesciences, I developed Python-based automation models to detect anomalies in 190K+ regulatory distribution records, applied SQL and machine learning for pattern detection, and visualized insights through Tableau to enhance data quality oversight.
+
+My academic projects include designing SQL-based financial dashboards to assess credit card fraud risk, predicting heart attack probability using R-based machine learning models, and modeling telecom customer churn with Python and Power BI.
+
+Proficient in Python, R, SQL, Tableau, Power BI, and Excel, I excel at transforming raw data into actionable insights that improve business performance, strengthen compliance, and guide strategic decisions. Passionate about leveraging analytics to drive operational efficiency and innovation across organizations.
+
+## Education
+
+**University of California, Irvine** | Irvine, CA
+
+M.S. in Business Analytics | Jul. 2024 - Jun. 2025
+
+**The University of Oregon** | Eugene, OR
+
+B.S. in Business Administration | Sep. 2018 - Jun. 2022
+
+Minor in Computer Information Science | Sep. 2018 - Jun. 2022
+
+## Experience
+
+**Edwards Lifesciences, Irvine, CA** | Business Analyst |<br>
+Jan. 2025 - Jun. 2025<br>
+<div style="margin-left: 1em;">
+• Built Python automation models and applied unsupervised machine learning with SQL to detect anomalies in 190K+ regulatory distribution records, improving data integrity and supply chain quality oversight.
+
+• Created Tableau and Excel dashboards to visualize error-prone categories, conduct gap analysis, and deliver actionable insights that guided operational improvements.
+
+• Contributed to data governance documentation and collaborated with Edwards stakeholders through weekly reviews to refine strategies aligned with compliance and business goals.
+</div>
+**GEO.S.BUSH & CO, Portland, OR** | International Trade Representative |<br>
+Oct. 2022 - Apr. 2024<br>
+<div style="margin-left: 1em;">
+• Managed end-to-end logistics documentation to ensure timely customs clearance, regulatory compliance, and smooth operational workflows.
+
+• Audited shipment data against purchase orders and submitted compliance documents to maintain data accuracy, support integrity, and minimize delivery delays.
+
+• Collaborated with internal teams and external partners to resolve shipment discrepancies and streamline processes, demonstrating strong organizational and problem-solving skills.

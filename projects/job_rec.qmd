@@ -1,0 +1,9 @@
+---
+title: "Job Recommendation System"
+date: 2025-03-01
+image: p_images/job_rec.png
+categories: [Python, NLP, Recommendation]
+description: "Built a skill-based job recommendation system using NLP and cosine similarity on 1.3M+ LinkedIn job postings. Delivered a working prototype with a real-time matching interface."
+page-layout: article
+page-navigation: true
+---
