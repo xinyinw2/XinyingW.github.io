@@ -1,1 +1,44 @@
 /* css styles */
+body { background-color: #CAE5E6; }
+/* Quarto About template: Solana */
+.quarto-about-solana .about { gap: 0rem; }            /* reduce the space between text and photo */
+.quarto-about-solana .about .about-image { margin: 0; } /* remove any extra margin on the image block */
+
+/* bigger page title on Solana about */
+.quarto-about-solana h1.title,
+.quarto-about-solana .about-title h1 {
+  font-size: 4rem;   /* tweak size */
+  line-height: 1.1;
+}
+
+/* left image cards for project grid */
+.quarto-grid-item .card {
+  display: flex;
+  align-items: flex-start;
+}
+.quarto-grid-item .card img {
+  width: 200px;
+  height: auto;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+.quarto-grid-item .card .card-body {
+  flex: 1;
+}
+
+/* feature table spacing */
+.feature-table th,
+.feature-table td {
+  padding: 8px 18px;
+  vertical-align: top;
+  white-space: nowrap;        /* keep short cells on one line */
+}
+.feature-table td:nth-child(3) {  /* let Description wrap */
+  white-space: normal;
+}
+
+/* Table style */
+.metric-table { border-collapse: separate; border-spacing: 0; width: 100%; }
+.metric-table caption { text-align: left; font-weight: 700; margin: 0 0 6px 0; }
+.metric-table th, .metric-table td { padding: 10px 16px; border: 1px solid #e6e6e6; }
+.metric-table thead th { background: #eef5fb; }
