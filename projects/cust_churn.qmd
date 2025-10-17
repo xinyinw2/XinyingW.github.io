@@ -3,8 +3,9 @@ title: "Customer Churn Prediction"
 date: 2024-12-10
 image: p_images/cust_churn.png
 categories: [Python, Power BI, Classification]
-description: "Cleaned telecom data, engineered features, trained a classifier, and built visuals to guide retention strategy."
+description: "Predicts which telecom customers are most likely to leave and explains the key drivers, using supervised models and clear visuals so teams can act on retention quickly."
 page-layout: article
+page-navigation: true
 ---
 ### Overview
 

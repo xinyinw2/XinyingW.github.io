@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2025-03-01">
-<meta name="description" content="Built a skill-based job recommendation system using NLP and cosine similarity on 1.3M+ LinkedIn job postings. Delivered a working prototype with a real-time matching interface.">
+<meta name="description" content="Matches candidates to roles using a large LinkedIn Jobs and Skills dataset, with skill based similarity and TF-IDF methods to return the most relevant openings.">
 
 <title>Job Recommendation System – Xinying Wu’s Portfolio</title>
 <style>
@@ -113,8 +113,23 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#problem-statement" id="toc-problem-statement" class="nav-link" data-scroll-target="#problem-statement">Problem Statement</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a></li>
+  <li><a href="#tools" id="toc-tools" class="nav-link" data-scroll-target="#tools">Tools</a></li>
+  <li><a href="#key-methods-and-approach" id="toc-key-methods-and-approach" class="nav-link" data-scroll-target="#key-methods-and-approach">Key Methods and Approach</a></li>
+  <li><a href="#model-training" id="toc-model-training" class="nav-link" data-scroll-target="#model-training">Model Training</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#business-implication" id="toc-business-implication" class="nav-link" data-scroll-target="#business-implication">Business Implication</a></li>
+  <li><a href="#links" id="toc-links" class="nav-link" data-scroll-target="#links">Links</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -131,7 +146,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Built a skill-based job recommendation system using NLP and cosine similarity on 1.3M+ LinkedIn job postings. Delivered a working prototype with a real-time matching interface.
+    Matches candidates to roles using a large LinkedIn Jobs and Skills dataset, with skill based similarity and TF-IDF methods to return the most relevant openings.
   </div>
 </div>
 
@@ -154,8 +169,358 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="overview" class="level3">
+<h3 class="anchored" data-anchor-id="overview">Overview</h3>
+<p>This project builds a skill based job recommendation system using a 1.3 million record LinkedIn jobs and skills dataset from 2024. The pipeline cleans and normalizes skills, represents text with TF-IDF, computes similarity to a users input profile, and returns a ranked list of relevant roles. The system shortens search time for candidates, helps recruiters target the right audience, and keeps job platforms engaging through accurate and transparent matches. Deliverables include a working prototype and a report that explains data preparation, model design, evaluation, and sample recommendations.</p>
+</section>
+<section id="problem-statement" class="level3">
+<h3 class="anchored" data-anchor-id="problem-statement">Problem Statement</h3>
+<p>Recruiters must screen large volumes of resumes for each opening, which leads to slow hiring cycles, inconsistent evaluations, and missed qualified candidates. Manual review struggles with unstructured resume formats, varied terminology, and subtle skill equivalence, and it increases the risk of unconscious bias and poor candidate experience.</p>
+<p>The goal is to build a resume recommendation system that ingests a job description and a pool of resumes, then ranks and surfaces the most relevant candidates with clear reasons. The system should handle noisy text and diverse formats, map skills and experience to job requirements, and provide fast, explainable results that support fair and data driven decisions. Success will be measured by higher precision at the top of the ranked list, improved recall of qualified candidates, reduced time to screen, and stable fairness metrics across candidate groups.</p>
+</section>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<p>This project uses the LinkedIn Jobs and Skills dataset named “1.3M Linkedin Jobs &amp; Skills (2024)” from Kaggle. The dataset contains about 1.3 million job listings from the 2024 with 2 fields. Each post has a link and a list of skills. For faster testing, we worked with a smaller sample of 50,000 rows and kept the full data for final checks. The file is loaded and cleaned in Google Colab.</p>
+<p><strong>Snapshot</strong></p>
+<ul>
+<li><p>Rows in full set 1,296,381</p></li>
+<li><p>2 columns: job_link and job_skills</p></li>
+<li><p>job_link: the URL for the job post</p></li>
+<li><p>job_skills: a comma separated list of required or preferred skills</p></li>
+<li><p>Working subset 50,000 rows</p></li>
+</ul>
+<p><strong>Data preprocessing</strong></p>
+<p>Create clean, consistent skills text that is ready for search, matching, and vectorization.</p>
+<p><u>Steps</u></p>
+<ul>
+<li><strong>Load and inspect</strong> read the CSV, check <strong>row count</strong>, <strong>columns</strong>, and <strong>missing values</strong><br>
+</li>
+<li><strong>Remove noise</strong> drop rows with missing <strong>job_skills</strong> and remove <strong>duplicates</strong> so each job appears once<br>
+</li>
+<li><strong>Normalize text</strong> convert to <strong>lowercase</strong>, trim <strong>extra spaces</strong>, remove <strong>punctuation</strong> and <strong>special characters</strong> while keeping commas that separate skills<br>
+</li>
+<li><strong>Tokenize skills</strong> split <strong>job_skills</strong> by commas so each <strong>skill</strong> becomes a clean token<br>
+</li>
+<li><strong>Stopwords</strong> remove common words that add no meaning and a <strong>custom list</strong> such as <strong>skill</strong>, <strong>experience</strong>, <strong>degree</strong><br>
+</li>
+<li><strong>Lemmatize</strong> use spaCy to reduce words to their <strong>base form</strong> for example <strong>analyzing</strong> becomes <strong>analyze</strong><br>
+</li>
+<li><strong>Standardize names</strong> build a <strong>skills mapping dictionary</strong> so variants map to one <strong>canonical name</strong> for example <strong>ms excel</strong> and <strong>microsoft excel</strong> become <strong>Excel</strong><br>
+</li>
+<li><strong>Reassemble</strong> join cleaned tokens into a <strong>standardized skills string</strong> for each job<br>
+</li>
+<li><strong>Vectorize</strong> create <strong>Bag of Words</strong> and <strong>TF IDF</strong> features for ranking and retrieval, with <strong>embeddings</strong> as a future option</li>
+</ul>
+<p><u>Quality Check</u></p>
+<ul>
+<li>Confirm <strong>job_link</strong> remains unique<br>
+</li>
+<li>Recount <strong>missing values</strong> after cleaning<br>
+</li>
+<li>Review <strong>top skill frequencies</strong> before and after to verify standardization<br>
+</li>
+<li>Time the pipeline on the <strong>50,000 row sample</strong> to ensure efficient runs</li>
+</ul>
+</section>
+<section id="exploratory-data-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h3>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>1. Wordcloud</strong></p>
+<ul>
+<li><strong>Soft skills dominate.</strong> Terms like <strong>communication</strong>, <strong>customer service</strong>, <strong>time management</strong>, and <strong>problem solving</strong> appear most often, signaling that employers value people who can interact well, manage time, and resolve issues across roles and industries.<br>
+</li>
+<li><strong>Education signals.</strong> <strong>High school diploma</strong> appears frequently as a baseline; <strong>bachelor’s degree</strong> is present but less common, suggesting only some roles explicitly require higher education.<br>
+</li>
+<li><strong>Digital literacy.</strong> Tools such as <strong>Microsoft Office</strong> and <strong>Office suites</strong> show up strongly, indicating basic tech proficiency is a standard expectation.</li>
+</ul>
+<p><em>Takeaway:</em> The market emphasizes transferable soft skills, basic digital tools, and a broad entry-level educational bar, which together shape how candidates should present skills and how platforms should weight features in recommendations.</p>
+</div><div class="column" style="width:45%;">
+<p><img src="p_images/job_rec1.png" class="img-fluid" style="width:100.0%" alt="Word cloud of job skills"></p>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>2. Top 20 Most Common Skills</strong></p>
+<ul>
+<li><strong>Interpersonal skills lead.</strong> <strong>Management</strong>, <strong>communication</strong>, and <strong>service</strong> appear most often, reinforcing the importance of collaboration and people skills across roles.<br>
+</li>
+<li><strong>Industry-specific skills.</strong> Terms like <strong>medical</strong>, <strong>health</strong>, <strong>safety</strong>, and <strong>license</strong> point to healthcare and compliance needs where certifications are common.<br>
+</li>
+<li><strong>Technical depth.</strong> <strong>System</strong>, <strong>engineering</strong>, and <strong>development</strong> highlight demand for technical expertise in software, infrastructure, and industrial roles.<br>
+</li>
+<li><strong>Business execution.</strong> <strong>Project</strong>, <strong>plan</strong>, <strong>teamwork</strong>, and <strong>analysis</strong> reflect strategic planning, delivery, and cross-functional collaboration.</li>
+</ul>
+<p><em>Takeaway:</em> Employers want a mix of <strong>people skills</strong>, <strong>recognized credentials</strong>, <strong>technical capability</strong>, and <strong>analytical execution</strong>—with strong signals from healthcare, engineering, business management, insurance, and technology.</p>
+</div><div class="column" style="width:45%;">
+<p><img src="p_images/job_rec2.png" class="img-fluid" style="width:100.0%" alt="Bar chart of the 20 most common skills"></p>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>3. Top 20 Most Common Skills in Analytics Roles</strong></p>
+<ul>
+<li><strong>Core soft skills.</strong> <strong>Analysis</strong>, <strong>management</strong>, and <strong>communication</strong> are prominent, showing analysts must interpret data and work effectively with teams.<br>
+</li>
+<li><strong>Financial fluency.</strong> <strong>Financial</strong>, <strong>cost</strong>, <strong>budget</strong>, and <strong>accounting</strong> point to forecasting, cost analysis, budgeting, and reading financial statements to support decisions.<br>
+</li>
+<li><strong>Tool basics.</strong> <strong>Microsoft</strong> and <strong>Excel</strong> signal baseline proficiency with spreadsheets and reporting workflows.<br>
+</li>
+<li><strong>Operational execution.</strong> <strong>Report</strong>, <strong>process</strong>, and <strong>system</strong> suggest compiling large datasets, standardizing processes, and communicating findings clearly.</li>
+</ul>
+<p><em>Takeaway:</em> Analytics roles blend <strong>data interpretation</strong>, <strong>business finance</strong>, and <strong>clear communication</strong>, with everyday tooling in <strong>Excel</strong> and structured reporting.</p>
+</div><div class="column" style="width:45%;">
+<p><img src="p_images/job_rec3.png" class="img-fluid" style="width:100.0%" alt="Bar chart of the most common analytics skills"></p>
+</div>
+</div>
+</section>
+<section id="tools" class="level3">
+<h3 class="anchored" data-anchor-id="tools">Tools</h3>
+<p>Modeling and data: <strong>Python</strong> (Pandas, scikit learn, matplotlib, seaborn, re, nltk, spacy, wordcloud, matplotlib.pyplo, streamlit,t, flask, pyngrok) <br> Visualization and reporting: <strong>Excel</strong> <br> User interface: <strong>Bolt</strong></p>
+</section>
+<section id="key-methods-and-approach" class="level3">
+<h3 class="anchored" data-anchor-id="key-methods-and-approach">Key Methods and Approach</h3>
+<p><strong>1. Training pipeline</strong></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Baseline TF-IDF + Cosine</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Baseline Word2Vec + Clustering</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ul>
+<li><strong>Represent</strong> job skills and user profile with <strong>TF-IDF</strong> vectors<br>
+</li>
+<li><strong>Rank</strong> jobs by <strong>cosine similarity</strong> to the user profile<br>
+</li>
+<li><strong>Strengths</strong> fast, transparent, easy to explain and tune</li>
+</ul>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<ul>
+<li><strong>Embed</strong> skills with <strong>Word2Vec</strong> to capture semantic similarity<br>
+</li>
+<li><strong>Cluster</strong> jobs and retrieve nearest clusters for the user profile<br>
+</li>
+<li><strong>Strengths</strong> handles synonyms and near-matches better than pure TF-IDF</li>
+</ul>
+</div>
+</div>
+</div>
+<p><strong>2. Hyperparameter tuning</strong></p>
+<ul>
+<li>Use <strong>grid search</strong>, <strong>random search</strong>, or <strong>Bayesian optimization</strong> for key settings
+<ul>
+<li>TF-IDF n-grams, min_df, max_df<br>
+</li>
+<li>Cosine retrieval top-K cutoff<br>
+</li>
+<li>Word2Vec vector size, window, min_count, epochs<br>
+</li>
+</ul></li>
+<li>Track results with a simple experiment log for reproducibility</li>
+</ul>
+<p><strong>3. Validation</strong></p>
+<ul>
+<li><strong>k-fold cross-validation</strong> for robust estimates<br>
+</li>
+<li><strong>Holdout set</strong> for a final unbiased check<br>
+</li>
+<li>Optional <strong>A/B testing</strong> for UI-level comparisons once a prototype is live</li>
+</ul>
+<p><strong>4. Model Evaluation Metrics</strong></p>
+<ul>
+<li><strong>Precision</strong>, <strong>Recall</strong>, <strong>F1-score</strong> for relevance at the top of the list<br>
+</li>
+<li><strong>AUC-ROC</strong> for ranking quality (where labels exist)<br>
+</li>
+<li><strong>RMSE</strong> only when evaluating numeric relevance scores against ground truth</li>
+</ul>
+<p><strong>5. Error analysis</strong></p>
+<ul>
+<li>Review <strong>mis-ranked</strong> or <strong>missed</strong> jobs, and high-error segments<br>
+</li>
+<li>Check failure patterns by <strong>industry</strong>, <strong>seniority</strong>, and <strong>skill sparsity</strong><br>
+</li>
+<li>Use insights to refine <strong>cleaning</strong>, <strong>skill standardization</strong>, and <strong>feature choices</strong></li>
+</ul>
+<p><strong>6. User interface</strong></p>
+<ul>
+<li><strong>Bolt</strong> UI with a LinkedIn-style layout for familiarity<br>
+</li>
+<li>Inputs user skill list and optional role or industry<br>
+</li>
+<li>Outputs <strong>ranked jobs</strong> with top matching skills highlighted and a link to the posting</li>
+</ul>
+<p><strong>7. Feedback loop</strong></p>
+<ul>
+<li>Collect quick thumbs-up or thumbs-down to improve future rankings<br>
+</li>
+<li>Log queries and outcomes to support retraining and threshold tuning</li>
+</ul>
+</section>
+<section id="model-training" class="level3">
+<h3 class="anchored" data-anchor-id="model-training">Model Training</h3>
+<p><strong>Goal</strong><br>
+Train and fine tune <strong>NLP</strong> models that deliver accurate, explainable <strong>job recommendations</strong>.</p>
+<p><strong>1. Text vectorization (TF–IDF)</strong></p>
+<p><strong>What it is:</strong></p>
+<p>Vectorization turns text into numbers so models can learn. We considered <strong>One-Hot</strong>, <strong>Bag of Words</strong>, <strong>TF–IDF</strong>, and <strong>word embeddings</strong> (Word2Vec, GloVe, FastText). We use <strong>TF–IDF</strong> on the <code>job_skills</code> column.</p>
+<p><strong>Why TF–IDF:</strong></p>
+<ul>
+<li><strong>Down-weights common skills</strong> like “communication” or “teamwork,” reducing noisy matches</li>
+<li><strong>Stronger signal than BoW</strong>, which treats every token equally</li>
+<li><strong>More efficient than embeddings</strong> for our scope no large pre-trained models or extra compute</li>
+</ul>
+<p><strong>Steps:</strong></p>
+<ul>
+<li>Build a <strong>TF–IDF model</strong> to convert job skills into numeric vectors<br>
+</li>
+<li>Get the <strong>feature names</strong> (unique skills)<br>
+</li>
+<li>Transform skills into a <strong>sparse TF–IDF matrix</strong><br>
+</li>
+<li>Convert to a <strong>Pandas DataFrame</strong> for ranking and retrieval</li>
+</ul>
+<p><strong>2. Building the recommendation model:</strong></p>
+<p><strong>Inputs:</strong></p>
+<ul>
+<li><strong>Jobs</strong> LinkedIn postings from Kaggle with titles, descriptions, and skills<br>
+</li>
+<li><strong>Resumes</strong> uploaded <strong>DOCX</strong> files with experience and skills</li>
+</ul>
+<p><strong>Pipelines:</strong></p>
+<ul>
+<li><strong>Job pipeline</strong>
+<ol type="1">
+<li><strong>Extract</strong> title, description, and skills<br>
+</li>
+<li><strong>Chunk</strong> long descriptions if needed<br>
+</li>
+<li><strong>Vectorize</strong> with <strong>TF–IDF</strong> (and optional <strong>embeddings</strong> for future scale)<br>
+</li>
+<li><strong>Store</strong> job vectors in a <strong>vector database</strong> for fast lookup<br>
+</li>
+</ol></li>
+<li><strong>Resume pipeline</strong>
+<ol type="1">
+<li><strong>Parse</strong> DOCX text and clean it<br>
+</li>
+<li><strong>Normalize</strong> skills to the same schema as jobs<br>
+</li>
+<li><strong>Vectorize</strong> the resume to the same space as jobs<br>
+</li>
+<li><strong>Store</strong> resume vectors in the <strong>same index</strong></li>
+</ol></li>
+</ul>
+<p><strong>Retrieval and ranking:</strong></p>
+<ul>
+<li><strong>Similarity metric</strong> use <strong>cosine similarity</strong> between the <strong>resume vector</strong> and <strong>job vectors</strong><br>
+</li>
+<li><strong>Ranking</strong> sort by similarity and <strong>return the top five</strong> matches with key skills highlighted</li>
+</ul>
+<p><strong>Feedback loop:</strong></p>
+<ul>
+<li><strong>Collect</strong> thumbs-up or thumbs-down on recommendations<br>
+</li>
+<li><strong>Re-rank</strong> based on feedback and <strong>log</strong> interactions to improve future results</li>
+</ul>
+<p><strong>3. Deployment and testing</strong></p>
+<p><strong>Test design:</strong></p>
+<p>We gathered a diverse set of resumes across multiple industries to check how well the system handles different backgrounds and wording. Sectors included <strong>Technical and Software</strong>, <strong>Healthcare and Medical</strong>, <strong>Education and Childcare</strong>, <strong>Creative and Design</strong>, and <strong>Business and Management</strong>.</p>
+<p><strong>Prototype and UI:</strong></p>
+<p>The first UI was built with <strong>Bolt</strong> and deployed as a clickable prototype for rapid iteration:<br>
+<a href="https://incomparable-mochi-f576ea.netlify.app/">Open the prototype</a></p>
+<p><strong>User test procedure:</strong></p>
+<ol type="1">
+<li><strong>Upload resume</strong> (DOCX) into the mock UI<br>
+</li>
+<li><strong>Extract skills</strong> and normalize them to the same schema as job postings<br>
+</li>
+<li><strong>Retrieve matches</strong> using cosine similarity over the vector index<br>
+</li>
+<li><strong>Review Top-5</strong> recommendations with matched skills highlighted<br>
+</li>
+<li><strong>Record feedback</strong> on relevance and clarity for later re-ranking</li>
+</ol>
+<p><strong>What we evaluated:</strong></p>
+<ul>
+<li><strong>Skill extraction accuracy</strong> do extracted skills reflect the resume content<br>
+</li>
+<li><strong>Recommendation quality</strong> are the top results relevant and varied<br>
+</li>
+<li><strong>User experience</strong> is the flow clear, fast, and easy to use on first try</li>
+</ul>
+<p><strong>Example walkthrough</strong> Healthcare resume<br>
+We uploaded a Healthcare and Medical resume and the system returned <strong>five</strong> recommended roles ranked by similarity. The first result was the closest match, with subsequent items offering adjacent options for exploration.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="p_images/job_rec4.png" class="img-fluid" alt="Recommendations with matched skills"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="results" class="level3">
+<h3 class="anchored" data-anchor-id="results">Results</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Current performance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Offline accuracy:</strong> <strong>85%</strong> on a held-out validation set (cross-validated).</p>
+</div>
+</div>
+<p><strong>Initial findings</strong></p>
+<p>Early tests showed <strong>inaccurate recommendations</strong>. Two drivers stood out</p>
+<ul>
+<li>the model was in an <strong>early stage</strong><br>
+</li>
+<li>the Bolt prototype used a <strong>very small set</strong> of about fifteen job postings</li>
+</ul>
+<p><strong>Model improvements</strong></p>
+<ul>
+<li>Added <strong>Word2Vec</strong> based matching to capture <strong>semantic similarity</strong> between skills
+<ul>
+<li>Example <strong>cleaning</strong> and <strong>sanitation</strong> are treated as related, improving match quality<br>
+</li>
+</ul></li>
+<li>Kept <strong>TF–IDF</strong> for speed and transparency, and <strong>blended</strong> scores where helpful</li>
+</ul>
+<p><strong>Data freshness plan</strong></p>
+<ul>
+<li>Implement <strong>periodic scraping</strong> of job listings with <strong>BeautifulSoup</strong> or <strong>Scrapy</strong><br>
+</li>
+<li>Consider <strong>API based</strong> feeds where available to reduce scraping overhead<br>
+</li>
+<li>Define a <strong>refresh schedule</strong> and deprecate stale jobs after a set age</li>
+</ul>
+<p><strong>Interim augmentation (prototype phase)</strong></p>
+<ul>
+<li>Used <strong>manual uploads</strong> to add recent postings and diversify test data<br>
+</li>
+<li>Logged outcomes to identify gaps in skills coverage and labeling</li>
+</ul>
+<p><strong>What to track next</strong></p>
+<ul>
+<li><strong>Click-through</strong> and <strong>thumbs-up / thumbs-down</strong> rates in the UI<br>
+</li>
+<li><strong>Coverage</strong> of top skills by industry and the <strong>age</strong> of postings in the index</li>
+</ul>
+</section>
+<section id="business-implication" class="level3">
+<h3 class="anchored" data-anchor-id="business-implication">Business Implication</h3>
+<p>Our system shortens hiring cycles and lowers costs by automating first-pass screening, so recruiters spend time on fewer, higher-quality resumes. Using TF-IDF and Word2Vec to match skills and context improves shortlist precision and interview pass-through rates, while ongoing feedback tuning keeps results aligned with recruiter intent.</p>
+<p>Because job listings are refreshed through automated scraping, recommendations stay current with market demand and scale cleanly as volume grows. The pipeline’s consistent text processing and explainable matching reduce subjective bias, supporting fairer, more defensible decisions. Candidates also benefit from clearer “why this match” signals and more relevant roles, which boosts engagement and reduces drop-off.</p>
+<p>Finally, product analytics—queries, matches, clicks, and feedback—surface skill gaps, channel performance, and conversion bottlenecks for workforce planning. Together, these capabilities differentiate the platform for both employers and job seekers. Core KPIs to monitor include time-to-screen, time-to-offer, precision@K, candidate response rate, cost per hire, and fairness metrics across groups.</p>
+</section>
+<section id="links" class="level3">
+<h3 class="anchored" data-anchor-id="links">Links</h3>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
