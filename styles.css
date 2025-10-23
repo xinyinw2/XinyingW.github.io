@@ -40,5 +40,18 @@ body { background-color: #CAE5E6; }
 /* Table style */
 .metric-table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .metric-table caption { text-align: left; font-weight: 700; margin: 0 0 6px 0; }
-.metric-table th, .metric-table td { padding: 10px 16px; border: 1px solid #e6e6e6; }
+.metric-table th, .metric-table td { padding: 10px 16px; border: 1px solid #a2a2a2; }
 .metric-table thead th { background: #eef5fb; }
+
+/* Table style2 */
+.feature-table { border-collapse: separate; border-spacing: 0; width: 100%; }
+.feature-table th, .feature-table td { padding: 10px 16px; border: 1px solid #a2a2a2; vertical-align: top; }
+.feature-table thead th { background: #f6f8fb; }
+.feature-table td code { white-space: nowrap; }
+
+/* color for feature names (first column) */
+.feature-table tbody td:first-child,
+.feature-table tbody td:first-child code {
+  color: #3fbd63; 
+  font-weight: 600; 
+}

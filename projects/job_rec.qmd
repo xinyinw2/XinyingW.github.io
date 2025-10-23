@@ -1,6 +1,6 @@
 ---
 title: "Job Recommendation System"
-date: 2025-03-01
+date: 2025-03-20
 image: p_images/job_rec.png
 categories: [Python, NLP, Recommendation]
 description: "Matches candidates to roles using a large LinkedIn Jobs and Skills dataset, with skill based similarity and TF-IDF methods to return the most relevant openings."

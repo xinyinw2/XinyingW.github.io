@@ -1,0 +1,105 @@
+---
+title: "Heart Attack Prediction"
+date: 2025-03-19
+image: p_images/heart.jpg
+categories: [R, Tableau, Classification]
+description: "Predicts elevated heart-attack risk using machine learning and explains key drivers to support prevention and clinical decisions."
+page-layout: article
+page-navigation: true
+---
+
+### Overview
+
+This project develops a predictive model to flag individuals at **elevated risk of heart attack**, combining machine learning with interpretable analytics so results are useful for **screening, prevention, and clinical decision support**. We focus on identifying which **clinical, lifestyle, and demographic factors** most influence risk, and on calibrating the model’s **precision and recall** to be reliable for real-world use.
+
+**Why this matters**
+
+- Heart disease is a leading cause of death worldwide (18M+ deaths annually).  
+- In the U.S., someone has a heart attack every ~40 seconds, and over 50% report no prior symptoms.  
+- The economic burden exceeds \$200B annually.
+
+**Who benefits**
+
+- **Patients:** personalized risk scores and driver explanations to guide lifestyle changes, medication adherence, and timely medical follow-up.  
+- **Clinicians:** an evidence-based complement to clinical judgment that helps prioritize care and manage panels efficiently.  
+- **Policymakers & health systems:** population-level insights to target prevention programs and reduce cardiovascular burden.
+
+**Research questions**
+
+- Which factors most strongly influence heart-attack risk in our data?  
+- What **precision/recall** balance makes the model dependable for screening and referral?  
+- How can insights translate into **preventive actions** for patients (e.g., lifestyle changes, adherence)?
+
+### Problem statement
+
+Cardiovascular disease is a leading cause of death, and many heart attacks occur without prior symptoms. Screening resources are limited, and risk is often underestimated until it is too late. Patients need clear, interpretable feedback they can act on, and clinicians need a reliable way to identify elevated risk earlier and prioritize preventive care. The core problem is to build a model that estimates individual heart-attack risk from routinely available data and explains why a person is high risk in time to intervene.
+
+Our objectives are to predict near-term heart-attack risk at the individual level, explain the top risk drivers in language patients and clinicians understand, and calibrate precision and recall so the model is safe for screening (high recall) and practical for follow-up (adequate precision). The scope includes clinical, lifestyle, and demographic inputs commonly captured in care or surveys, and concise contributing factors. We must handle class imbalance and missing data while maintaining interpretability and fairness across subgroups.
+
+Success will be defined by meeting agreed performance thresholds (e.g., strong AUROC and PR-AUC) and an operational precision/recall target set with clinical stakeholders. We will also look for stable performance across age and sex subgroups, documented bias checks, and explanation quality that clinicians rate as useful for counseling and care planning.
+
+
+### Data
+
+The dataset comes from a dataset named "Heart Attack Risk Prediction Dataset" from Kaggle. This dataset is designed to analyze and predict heart attack risk based on various health, lifestyle, and demographic factors. It includes attributes such as age, cholesterol levels, blood pressure, smoking habits, exercise patterns, dietary preferences, and medical history. By leveraging predictive analytics and machine learning, this dataset can aid researchers and healthcare professionals in developing proactive strategies for heart disease prevention and management.
+.
+
+**Snapshot**
+
+* Rows: 8,763 
+
+* Columns: 26
+
+* Target variable: Heart_Attack_Risk (binary: **1 = At Risk**, **0 = No Risk**)
+
+* Predictors: the modeling dataset includes 24 features across demographics, clinical/physiologic measures, medical history, and lifestyle—with Patient ID excluded from the final set
+
+**Data Dictionary**
+
+```{=html}
+<table class="feature-table">
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>Patient ID</code></td><td>QL(Unique)</td><td>Unique identifier for each patient</td></tr>
+    <tr><td><code>Age</code></td><td>Q(Int)</td><td>Age in years</td></tr>
+    <tr><td><code>Sex</code></td><td>QL(2)</td><td>Male or Female</td></tr>
+    <tr><td><code>Cholesterol</code></td><td>Q(Int)</td><td>Total cholesterol (mg/dL)</td></tr>
+    <tr><td><code>Blood Pressure</code></td><td>QL(2)</td><td>Systolic / Diastolic (mmHg)</td></tr>
+    <tr><td><code>Heart Rate</code></td><td>Q(Int)</td><td>Resting heart rate (bpm)</td></tr>
+    <tr><td><code>Diabetes</code></td><td>QL(Bin)</td><td>Diabetes status (Yes/No)</td></tr>
+    <tr><td><code>Family History</code></td><td>QL(Bin)</td><td>Family history of heart problems (1 Yes / 0 No)</td></tr>
+    <tr><td><code>Smoking</code></td><td>QL(Bin)</td><td>Smoking status (1 Smoker / 0 Non-smoker)</td></tr>
+    <tr><td><code>Obesity</code></td><td>QL(Bin)</td><td>Obesity status (1 Obese / 0 Not obese)</td></tr>
+    <tr><td><code>Alcohol Consumption</code></td><td>QL(4)</td><td>None / Light / Moderate / Heavy</td></tr>
+    <tr><td><code>Exercise Hours Per Week</code></td><td>Q(Real)</td><td>Hours of exercise per week</td></tr>
+    <tr><td><code>Diet</code></td><td>QL(3)</td><td>Diet quality (Healthy / Average / Unhealthy)</td></tr>
+    <tr><td><code>Previous Heart Problems</code></td><td>QL(Bin)</td><td>Prior heart-related issues (1 Yes / 0 No)</td></tr>
+    <tr><td><code>Medication Use</code></td><td>QL(Bin)</td><td>Takes medication (1 Yes / 0 No)</td></tr>
+    <tr><td><code>Stress Level</code></td><td>Q(Int)</td><td>Self-reported stress (1–10)</td></tr>
+    <tr><td><code>Sedentary Hours Per Day</code></td><td>Q(Real)</td><td>Average sedentary hours per day</td></tr>
+    <tr><td><code>Income</code></td><td>Q(Real)</td><td>Income level</td></tr>
+    <tr><td><code>BMI</code></td><td>Q(Real)</td><td>Body Mass Index</td></tr>
+    <tr><td><code>Triglycerides</code></td><td>Q(Int)</td><td>Triglycerides (mg/dL)</td></tr>
+    <tr><td><code>Physical Activity Days Per Week</code></td><td>Q(Int)</td><td>Days with physical activity (per week)</td></tr>
+    <tr><td><code>Sleep Hours Per Day</code></td><td>Q(Real)</td><td>Average sleep hours per day</td></tr>
+    <tr><td><code>Country</code></td><td>QL(N)</td><td>Country of residence</td></tr>
+    <tr><td><code>Continent</code></td><td>QL(7)</td><td>Continent of residence</td></tr>
+    <tr><td><code>Hemisphere</code></td><td>QL(2)</td><td>Northern / Southern</td></tr>
+    <tr><td><code>Heart Attack Risk</code></td><td>QL(Bin)</td><td>Target label (1 Yes / 0 No)</td></tr>
+  </tbody>
+</table>
+::: {.callout-note}
+**Notation used**
+
+Q(Int) = Quantitative (Integer)  
+Q(Real) = Quantitative (Real)  
+QL(Bin) = Qualitative (Binary)  
+QL(N) = Qualitative (Categorical) with N levels
+:::
+
