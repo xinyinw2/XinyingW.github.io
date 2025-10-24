@@ -8,7 +8,7 @@ page-layout: article
 page-navigation: true
 ---
 
-### Overview
+# Overview
 
 This project develops a predictive model to flag individuals at **elevated risk of heart attack**, combining machine learning with interpretable analytics so results are useful for **screening, prevention, and clinical decision support**. We focus on identifying which **clinical, lifestyle, and demographic factors** most influence risk, and on calibrating the model’s **precision and recall** to be reliable for real-world use.
 
@@ -30,7 +30,7 @@ This project develops a predictive model to flag individuals at **elevated risk 
 - What **precision/recall** balance makes the model dependable for screening and referral?  
 - How can insights translate into **preventive actions** for patients (e.g., lifestyle changes, adherence)?
 
-### Problem statement
+# Problem statement
 
 Cardiovascular disease is a leading cause of death, and many heart attacks occur without prior symptoms. Screening resources are limited, and risk is often underestimated until it is too late. Patients need clear, interpretable feedback they can act on, and clinicians need a reliable way to identify elevated risk earlier and prioritize preventive care. The core problem is to build a model that estimates individual heart-attack risk from routinely available data and explains why a person is high risk in time to intervene.
 
@@ -39,12 +39,12 @@ Our objectives are to predict near-term heart-attack risk at the individual leve
 Success will be defined by meeting agreed performance thresholds (e.g., strong AUROC and PR-AUC) and an operational precision/recall target set with clinical stakeholders. We will also look for stable performance across age and sex subgroups, documented bias checks, and explanation quality that clinicians rate as useful for counseling and care planning.
 
 
-### Data
+# Data
 
 The dataset comes from a dataset named "Heart Attack Risk Prediction Dataset" from Kaggle. This dataset is designed to analyze and predict heart attack risk based on various health, lifestyle, and demographic factors. It includes attributes such as age, cholesterol levels, blood pressure, smoking habits, exercise patterns, dietary preferences, and medical history. By leveraging predictive analytics and machine learning, this dataset can aid researchers and healthcare professionals in developing proactive strategies for heart disease prevention and management.
 .
 
-**Snapshot**
+### Snapshot
 
 * Rows: 8,763 
 
@@ -54,7 +54,7 @@ The dataset comes from a dataset named "Heart Attack Risk Prediction Dataset" fr
 
 * Predictors: the modeling dataset includes 24 features across demographics, clinical/physiologic measures, medical history, and lifestyle—with Patient ID excluded from the final set
 
-**Data Dictionary**
+### Data Dictionary
 
 ```{=html}
 <table class="feature-table">
@@ -102,4 +102,73 @@ Q(Real) = Quantitative (Real)
 QL(Bin) = Qualitative (Binary)  
 QL(N) = Qualitative (Categorical) with N levels
 :::
+
+### Data Preprocessing
+
+1. **Columns**
+   * Drop `Patient.ID`
+   * Move `Heart.Attack.Risk` to the first column
+
+2. **Missing values and outliers**
+   * Checked with a **z-score** screen  
+   * **None detected** (no imputation or trimming applied)
+
+3. **Blood pressure parsing**
+   * Split `Blood.Pressure` into **`Systolic`** and **`Diastolic`**  
+   * Example: `158/88` → `Systolic = 158`, `Diastolic = 88`
+
+4. **Encode categorical variables**
+   * **Binary to 0/1**
+     * `Sex` → `Female` (1 = Female, 0 = Male)
+     * `Hemisphere` → `Northern.Hemisphere` (1 = Northern, 0 = Southern)
+     * Others were kept in numeric form when building a correlation matrix before being converted to factors for training models
+   * **Multi-category (one-hot dummies)**
+     * Created dummies for `Diet`, `Country`, `Continent`
+     * Converted to numeric first when building a correlation matrix 
+     * Converted to factors and finally dummies for training models
+
+5. **Scale numeric features**
+   * Standardize all numeric predictors to **mean = 0** and **standard deviation = 1**
+
+
+### Dataset versions and splits
+
+**Two final clean datasets (same row split, different handling of multi-category variables)**  
+
+* **data**: 26 columns, multi-category variables kept as **factors**  
+* **data1**: 52 columns, multi-category variables **dummy-encoded**
+
+```{=html}
+<table class="feature-table">
+  <thead>
+    <tr>
+      <th>Dataset</th>
+      <th>Columns</th>
+      <th>Total rows</th>
+      <th>Train rows</th>
+      <th>Test rows</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>data</code></td><td>26</td><td>8,763</td><td>3,138</td><td>4,382</td></tr>
+    <tr><td><code>data1</code></td><td>52</td><td>8,763</td><td>3,138</td><td>4,382</td></tr>
+  </tbody>
+</table>
+
+**Which dataset for which models**
+
+* Numeric-only algorithms: use data1 (dummy-encoded) — e.g., k-NN, SVM
+* Models that accept factors in our toolchain: use data (factor-based) — e.g., Logistic Regression, Naive Bayes, Decision Tree, Random Forest
+(Using factors also yields clearer tree visualizations.)
+
+**Class distribution strategy**
+
+* Original distribution: ~36% “At risk”, ~64% “No risk”
+* Test set (stratified): kept the original distribution (~36/64) to reflect real world prevalence
+* Training set (balanced): adjusted to 50% / 50% (“At risk” / “No risk”) to reduce class-imbalance bias during learning
+
+**Notes**
+
+* Both datasets share the same train/test split, ensuring fair model comparisons.
+* “Balanced” training was achieved by resampling so each class contributes equally.
 
