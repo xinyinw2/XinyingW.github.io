@@ -120,7 +120,13 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#problem-statement" id="toc-problem-statement" class="nav-link" data-scroll-target="#problem-statement">Problem statement</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
+  <ul class="collapse">
+  <li><a href="#snapshot" id="toc-snapshot" class="nav-link" data-scroll-target="#snapshot">Snapshot</a></li>
+  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary">Data Dictionary</a></li>
+  <li><a href="#data-preprocessing" id="toc-data-preprocessing" class="nav-link" data-scroll-target="#data-preprocessing">Data Preprocessing</a></li>
+  <li><a href="#dataset-versions-and-splits" id="toc-dataset-versions-and-splits" class="nav-link" data-scroll-target="#dataset-versions-and-splits">Dataset versions and splits</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -162,8 +168,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview" class="level3">
-<h3 class="anchored" data-anchor-id="overview">Overview</h3>
+<section id="overview" class="level1">
+<h1>Overview</h1>
 <p>This project develops a predictive model to flag individuals at <strong>elevated risk of heart attack</strong>, combining machine learning with interpretable analytics so results are useful for <strong>screening, prevention, and clinical decision support</strong>. We focus on identifying which <strong>clinical, lifestyle, and demographic factors</strong> most influence risk, and on calibrating the model’s <strong>precision and recall</strong> to be reliable for real-world use.</p>
 <p><strong>Why this matters</strong></p>
 <ul>
@@ -190,23 +196,26 @@ ul.task-list li input[type="checkbox"] {
 <li>How can insights translate into <strong>preventive actions</strong> for patients (e.g., lifestyle changes, adherence)?</li>
 </ul>
 </section>
-<section id="problem-statement" class="level3">
-<h3 class="anchored" data-anchor-id="problem-statement">Problem statement</h3>
+<section id="problem-statement" class="level1">
+<h1>Problem statement</h1>
 <p>Cardiovascular disease is a leading cause of death, and many heart attacks occur without prior symptoms. Screening resources are limited, and risk is often underestimated until it is too late. Patients need clear, interpretable feedback they can act on, and clinicians need a reliable way to identify elevated risk earlier and prioritize preventive care. The core problem is to build a model that estimates individual heart-attack risk from routinely available data and explains why a person is high risk in time to intervene.</p>
 <p>Our objectives are to predict near-term heart-attack risk at the individual level, explain the top risk drivers in language patients and clinicians understand, and calibrate precision and recall so the model is safe for screening (high recall) and practical for follow-up (adequate precision). The scope includes clinical, lifestyle, and demographic inputs commonly captured in care or surveys, and concise contributing factors. We must handle class imbalance and missing data while maintaining interpretability and fairness across subgroups.</p>
 <p>Success will be defined by meeting agreed performance thresholds (e.g., strong AUROC and PR-AUC) and an operational precision/recall target set with clinical stakeholders. We will also look for stable performance across age and sex subgroups, documented bias checks, and explanation quality that clinicians rate as useful for counseling and care planning.</p>
 </section>
-<section id="data" class="level3">
-<h3 class="anchored" data-anchor-id="data">Data</h3>
+<section id="data" class="level1">
+<h1>Data</h1>
 <p>The dataset comes from a dataset named “Heart Attack Risk Prediction Dataset” from Kaggle. This dataset is designed to analyze and predict heart attack risk based on various health, lifestyle, and demographic factors. It includes attributes such as age, cholesterol levels, blood pressure, smoking habits, exercise patterns, dietary preferences, and medical history. By leveraging predictive analytics and machine learning, this dataset can aid researchers and healthcare professionals in developing proactive strategies for heart disease prevention and management. .</p>
-<p><strong>Snapshot</strong></p>
+<section id="snapshot" class="level3">
+<h3 class="anchored" data-anchor-id="snapshot">Snapshot</h3>
 <ul>
 <li><p>Rows: 8,763</p></li>
 <li><p>Columns: 26</p></li>
 <li><p>Target variable: Heart_Attack_Risk (binary: <strong>1 = At Risk</strong>, <strong>0 = No Risk</strong>)</p></li>
 <li><p>Predictors: the modeling dataset includes 24 features across demographics, clinical/physiologic measures, medical history, and lifestyle—with Patient ID excluded from the final set</p></li>
 </ul>
-<p><strong>Data Dictionary</strong></p>
+</section>
+<section id="data-dictionary" class="level3">
+<h3 class="anchored" data-anchor-id="data-dictionary">Data Dictionary</h3>
 <table class="feature-table">
 <thead>
 <tr>
@@ -527,8 +536,132 @@ QL(Bin) = Qualitative (Binary)<br>
 QL(N) = Qualitative (Categorical) with N levels</p>
 </div>
 </div>
+</section>
+<section id="data-preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="data-preprocessing">Data Preprocessing</h3>
+<ol type="1">
+<li><strong>Columns</strong>
+<ul>
+<li>Drop <code>Patient.ID</code></li>
+<li>Move <code>Heart.Attack.Risk</code> to the first column</li>
+</ul></li>
+<li><strong>Missing values and outliers</strong>
+<ul>
+<li>Checked with a <strong>z-score</strong> screen<br>
+</li>
+<li><strong>None detected</strong> (no imputation or trimming applied)</li>
+</ul></li>
+<li><strong>Blood pressure parsing</strong>
+<ul>
+<li>Split <code>Blood.Pressure</code> into <strong><code>Systolic</code></strong> and <strong><code>Diastolic</code></strong><br>
+</li>
+<li>Example: <code>158/88</code> → <code>Systolic = 158</code>, <code>Diastolic = 88</code></li>
+</ul></li>
+<li><strong>Encode categorical variables</strong>
+<ul>
+<li><strong>Binary to 0/1</strong>
+<ul>
+<li><code>Sex</code> → <code>Female</code> (1 = Female, 0 = Male)</li>
+<li><code>Hemisphere</code> → <code>Northern.Hemisphere</code> (1 = Northern, 0 = Southern)</li>
+<li>Others were kept in numeric form when building a correlation matrix before being converted to factors for training models</li>
+</ul></li>
+<li><strong>Multi-category (one-hot dummies)</strong>
+<ul>
+<li>Created dummies for <code>Diet</code>, <code>Country</code>, <code>Continent</code></li>
+<li>Converted to numeric first when building a correlation matrix</li>
+<li>Converted to factors and finally dummies for training models</li>
+</ul></li>
+</ul></li>
+<li><strong>Scale numeric features</strong>
+<ul>
+<li>Standardize all numeric predictors to <strong>mean = 0</strong> and <strong>standard deviation = 1</strong></li>
+</ul></li>
+</ol>
+</section>
+<section id="dataset-versions-and-splits" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-versions-and-splits">Dataset versions and splits</h3>
+<p><strong>Two final clean datasets (same row split, different handling of multi-category variables)</strong></p>
+<ul>
+<li><strong>data</strong>: 26 columns, multi-category variables kept as <strong>factors</strong><br>
+</li>
+<li><strong>data1</strong>: 52 columns, multi-category variables <strong>dummy-encoded</strong></li>
+</ul>
+<table class="feature-table">
+<thead>
+<tr>
+<th>
+Dataset
+</th>
+<th>
+Columns
+</th>
+<th>
+Total rows
+</th>
+<th>
+Train rows
+</th>
+<th>
+Test rows
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>data</code>
+</td>
+<td>
+26
+</td>
+<td>
+8,763
+</td>
+<td>
+3,138
+</td>
+<td>
+4,382
+</td>
+</tr>
+<tr>
+<td>
+<code>data1</code>
+</td>
+<td>
+52
+</td>
+<td>
+8,763
+</td>
+<td>
+3,138
+</td>
+<td>
+4,382
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Which dataset for which models</strong></p>
+<ul>
+<li>Numeric-only algorithms: use data1 (dummy-encoded) — e.g., k-NN, SVM</li>
+<li>Models that accept factors in our toolchain: use data (factor-based) — e.g., Logistic Regression, Naive Bayes, Decision Tree, Random Forest (Using factors also yields clearer tree visualizations.)</li>
+</ul>
+<p><strong>Class distribution strategy</strong></p>
+<ul>
+<li>Original distribution: ~36% “At risk”, ~64% “No risk”</li>
+<li>Test set (stratified): kept the original distribution (~36/64) to reflect real world prevalence</li>
+<li>Training set (balanced): adjusted to 50% / 50% (“At risk” / “No risk”) to reduce class-imbalance bias during learning</li>
+</ul>
+<p><strong>Notes</strong></p>
+<ul>
+<li>Both datasets share the same train/test split, ensuring fair model comparisons.</li>
+<li>“Balanced” training was achieved by resampling so each class contributes equally.</li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
