@@ -172,3 +172,127 @@ QL(N) = Qualitative (Categorical) with N levels
 * Both datasets share the same train/test split, ensuring fair model comparisons.
 * “Balanced” training was achieved by resampling so each class contributes equally.
 
+
+
+
+# Exploratory Data Analysis
+
+### Descriptive Analysis
+
+#### Heart Attack Risk by Country
+
+::: {.columns}
+::: {.column width="60%"}
+
+This chart shows the proportion of people labeled **At Risk** vs **No Risk** for heart attack in each country.  
+The overall pattern is very similar across countries: most countries have an at-risk share of roughly one third.  
+This suggests that risk is widespread and not driven by a single country in the dataset.
+:::
+
+::: {.column width="40%"}
+![](p_images/heart1.jpg){fig-alt="Stacked proportion bar chart of heart attack risk by country" width=100%}
+:::
+:::
+
+---
+
+#### Distribution of At-Risk Patients by Age
+
+::: {.columns}
+::: {.column width="60%"} 
+
+This plot shows how many **At Risk** cases appear at different ages.  
+Risk is not just concentrated in older adults — there are many at-risk individuals starting in their mid 20s and continuing through the 60s, 70s, and 80s.  
+That means elevated risk appears across the full adult age range.
+:::
+
+::: {.column width="40%"}
+![](p_images/heart2.png){fig-alt="Histogram of at-risk heart attack cases by age with density line" width=100%}
+:::
+:::
+
+---
+
+#### Heart Attack Risk by Gender
+
+::: {.columns}
+::: {.column width="60%"}
+The share of people labeled **At Risk** is very similar between males and females.  
+In this dataset, baseline heart attack risk looks fairly balanced across gender, with no large gap in proportions.
+:::
+
+::: {.column width="40%"}
+![](p_images/heart4.png){fig-alt="Stacked bar chart of heart attack risk proportion by gender" width=100%}
+:::
+:::
+
+
+### Correlation Analysis
+
+#### Correlation with Demographics
+::: {.columns}
+::: {.column width="60%"}
+This correlation matrix looks at how **Heart.Attack.Risk** relates to demographic features such as **Sex**, **Age**, **Income**, **Country**, **Continent**, and **Hemisphere**.  
+
+All the correlation values with Heart.Attack.Risk are very close to zero, which means there is **no strong linear relationship** between risk and any single demographic or location variable in this dataset. This suggests that heart attack risk is not being driven by demographic alone, and likely depends more on clinical and lifestyle factors than on where someone lives.
+:::
+
+::: {.column width="40%"}
+![](p_images/heart3.png){fig-alt="Correlation plot between heart attack risk and demographic/geographic variables" width=100%}
+:::
+:::
+
+---
+
+#### Correlation with Physiological and Clinical Variables
+::: {.columns}
+::: {.column width="60%"}
+This correlation matrix shows how **Heart.Attack.Risk** relates to physiological and clinical measures such as **Cholesterol**, **Systolic** and **Diastolic** blood pressure, **Triglycerides**, **Heart.Rate**, and **BMI**.  
+
+The strongest positive correlations appear between **Cholesterol** and risk, and between **Systolic blood pressure** and risk.  
+This suggests that higher cholesterol levels and higher systolic pressure are more associated with being labeled "At Risk" in this dataset, while the other variables have weaker or near-zero relationships.
+:::
+
+::: {.column width="40%"}
+![](p_images/heart5.png){fig-alt="Correlation plot between heart attack risk and physiological/clinical variables" width=100%}
+:::
+:::
+
+---
+
+#### Correlation with Medical History
+::: {.columns}
+::: {.column width="60%"}
+This correlation matrix looks at how **Heart.Attack.Risk** relates to medical history factors such as **Diabetes**, **Family.History**, **Previous.Heart.Problems**, **Medication.Use**, and **Stress.Level**.  
+
+The strongest positive correlation with being "At Risk" is **Diabetes**, suggesting that a history of diabetes is an important signal for elevated heart attack risk in this dataset.  
+Other history variables show weaker or near-zero direct correlations.
+:::
+
+::: {.column width="40%"}
+![](p_images/heart6.png){fig-alt="Correlation plot between heart attack risk and medical history variables" width=100%}
+:::
+:::
+
+---
+
+#### Correlation with Lifestyle Factors
+::: {.columns}
+::: {.column width="60%"}
+This correlation matrix shows how **Heart.Attack.Risk** relates to lifestyle factors such as **Smoking**, **Alcohol.Consumption**, **Diet**, **Exercise.Hours.Per.Week**, **Physical.Activity.Days.Per.Week**, **Sedentary.Hours.Per.Day**, and **Sleep.Hours.Per.Day**.  
+
+The strongest relationship we see is a **negative correlation** between **Sleep.Hours.Per.Day** and heart attack risk, suggesting that fewer hours of sleep per day is associated with higher risk.  
+Other lifestyle variables, including smoking and alcohol use, have weaker direct correlations in this dataset.
+:::
+
+::: {.column width="40%"}
+![](p_images/heart7.png){fig-alt="Correlation plot between heart attack risk and lifestyle variables" width=100%}
+:::
+:::
+
+
+# Tools
+Modeling and data: **R**
+<br>
+Visualization and reporting: **Tableau**
+<br>

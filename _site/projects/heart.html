@@ -127,6 +127,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#data-preprocessing" id="toc-data-preprocessing" class="nav-link" data-scroll-target="#data-preprocessing">Data Preprocessing</a></li>
   <li><a href="#dataset-versions-and-splits" id="toc-dataset-versions-and-splits" class="nav-link" data-scroll-target="#dataset-versions-and-splits">Dataset versions and splits</a></li>
   </ul></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a>
+  <ul class="collapse">
+  <li><a href="#descriptive-analysis" id="toc-descriptive-analysis" class="nav-link" data-scroll-target="#descriptive-analysis">Descriptive Analysis</a></li>
+  <li><a href="#correlation-analysis" id="toc-correlation-analysis" class="nav-link" data-scroll-target="#correlation-analysis">Correlation Analysis</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -659,8 +664,104 @@ Test rows
 <li>Both datasets share the same train/test split, ensuring fair model comparisons.</li>
 <li>“Balanced” training was achieved by resampling so each class contributes equally.</li>
 </ul>
+</section>
+</section>
+<section id="exploratory-data-analysis" class="level1">
+<h1>Exploratory Data Analysis</h1>
+<section id="descriptive-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="descriptive-analysis">Descriptive Analysis</h3>
+<section id="heart-attack-risk-by-country" class="level4">
+<h4 class="anchored" data-anchor-id="heart-attack-risk-by-country">Heart Attack Risk by Country</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>This chart shows the proportion of people labeled <strong>At Risk</strong> vs <strong>No Risk</strong> for heart attack in each country.<br>
+The overall pattern is very similar across countries: most countries have an at-risk share of roughly one third.<br>
+This suggests that risk is widespread and not driven by a single country in the dataset.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/heart1.jpg" class="img-fluid" style="width:100.0%" alt="Stacked proportion bar chart of heart attack risk by country"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="distribution-of-at-risk-patients-by-age" class="level4">
+<h4 class="anchored" data-anchor-id="distribution-of-at-risk-patients-by-age">Distribution of At-Risk Patients by Age</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>This plot shows how many <strong>At Risk</strong> cases appear at different ages.<br>
+Risk is not just concentrated in older adults — there are many at-risk individuals starting in their mid 20s and continuing through the 60s, 70s, and 80s.<br>
+That means elevated risk appears across the full adult age range.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/heart2.png" class="img-fluid" style="width:100.0%" alt="Histogram of at-risk heart attack cases by age with density line"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="heart-attack-risk-by-gender" class="level4">
+<h4 class="anchored" data-anchor-id="heart-attack-risk-by-gender">Heart Attack Risk by Gender</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>The share of people labeled <strong>At Risk</strong> is very similar between males and females.<br>
+In this dataset, baseline heart attack risk looks fairly balanced across gender, with no large gap in proportions.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/heart4.png" class="img-fluid" style="width:100.0%" alt="Stacked bar chart of heart attack risk proportion by gender"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="correlation-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="correlation-analysis">Correlation Analysis</h3>
+<section id="correlation-with-demographics" class="level4">
+<h4 class="anchored" data-anchor-id="correlation-with-demographics">Correlation with Demographics</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>This correlation matrix looks at how <strong>Heart.Attack.Risk</strong> relates to demographic features such as <strong>Sex</strong>, <strong>Age</strong>, <strong>Income</strong>, <strong>Country</strong>, <strong>Continent</strong>, and <strong>Hemisphere</strong>.</p>
+<p>All the correlation values with Heart.Attack.Risk are very close to zero, which means there is <strong>no strong linear relationship</strong> between risk and any single demographic or location variable in this dataset. This suggests that heart attack risk is not being driven by demographic alone, and likely depends more on clinical and lifestyle factors than on where someone lives.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/heart3.png" class="img-fluid" style="width:100.0%" alt="Correlation plot between heart attack risk and demographic/geographic variables"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="correlation-with-physiological-and-clinical-variables" class="level4">
+<h4 class="anchored" data-anchor-id="correlation-with-physiological-and-clinical-variables">Correlation with Physiological and Clinical Variables</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>This correlation matrix shows how <strong>Heart.Attack.Risk</strong> relates to physiological and clinical measures such as <strong>Cholesterol</strong>, <strong>Systolic</strong> and <strong>Diastolic</strong> blood pressure, <strong>Triglycerides</strong>, <strong>Heart.Rate</strong>, and <strong>BMI</strong>.</p>
+<p>The strongest positive correlations appear between <strong>Cholesterol</strong> and risk, and between <strong>Systolic blood pressure</strong> and risk.<br>
+This suggests that higher cholesterol levels and higher systolic pressure are more associated with being labeled “At Risk” in this dataset, while the other variables have weaker or near-zero relationships.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/heart5.png" class="img-fluid" style="width:100.0%" alt="Correlation plot between heart attack risk and physiological/clinical variables"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="correlation-with-medical-history" class="level4">
+<h4 class="anchored" data-anchor-id="correlation-with-medical-history">Correlation with Medical History</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>This correlation matrix looks at how <strong>Heart.Attack.Risk</strong> relates to medical history factors such as <strong>Diabetes</strong>, <strong>Family.History</strong>, <strong>Previous.Heart.Problems</strong>, <strong>Medication.Use</strong>, and <strong>Stress.Level</strong>.</p>
+<p>The strongest positive correlation with being “At Risk” is <strong>Diabetes</strong>, suggesting that a history of diabetes is an important signal for elevated heart attack risk in this dataset.<br>
+Other history variables show weaker or near-zero direct correlations.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/heart6.png" class="img-fluid" style="width:100.0%" alt="Correlation plot between heart attack risk and medical history variables"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="correlation-with-lifestyle-factors" class="level4">
+<h4 class="anchored" data-anchor-id="correlation-with-lifestyle-factors">Correlation with Lifestyle Factors</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>This correlation matrix shows how <strong>Heart.Attack.Risk</strong> relates to lifestyle factors such as <strong>Smoking</strong>, <strong>Alcohol.Consumption</strong>, <strong>Diet</strong>, <strong>Exercise.Hours.Per.Week</strong>, <strong>Physical.Activity.Days.Per.Week</strong>, <strong>Sedentary.Hours.Per.Day</strong>, and <strong>Sleep.Hours.Per.Day</strong>.</p>
+<p>The strongest relationship we see is a <strong>negative correlation</strong> between <strong>Sleep.Hours.Per.Day</strong> and heart attack risk, suggesting that fewer hours of sleep per day is associated with higher risk.<br>
+Other lifestyle variables, including smoking and alcohol use, have weaker direct correlations in this dataset.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/heart7.png" class="img-fluid" style="width:100.0%" alt="Correlation plot between heart attack risk and lifestyle variables"></p>
+</div>
+</div>
 
 
+</section>
 </section>
 </section>
 
