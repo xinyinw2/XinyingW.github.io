@@ -132,6 +132,19 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#descriptive-analysis" id="toc-descriptive-analysis" class="nav-link" data-scroll-target="#descriptive-analysis">Descriptive Analysis</a></li>
   <li><a href="#correlation-analysis" id="toc-correlation-analysis" class="nav-link" data-scroll-target="#correlation-analysis">Correlation Analysis</a></li>
   </ul></li>
+  <li><a href="#tools" id="toc-tools" class="nav-link" data-scroll-target="#tools">Tools</a></li>
+  <li><a href="#methods-and-approach" id="toc-methods-and-approach" class="nav-link" data-scroll-target="#methods-and-approach">Methods and Approach</a></li>
+  <li><a href="#model-results-and-selection" id="toc-model-results-and-selection" class="nav-link" data-scroll-target="#model-results-and-selection">Model results and selection</a>
+  <ul class="collapse">
+  <li><a href="#trained-on-worldwide-data" id="toc-trained-on-worldwide-data" class="nav-link" data-scroll-target="#trained-on-worldwide-data">Trained on Worldwide Data</a></li>
+  <li><a href="#trained-on-subset-data" id="toc-trained-on-subset-data" class="nav-link" data-scroll-target="#trained-on-subset-data">Trained on Subset data</a></li>
+  <li><a href="#country-specific-risk-drivers" id="toc-country-specific-risk-drivers" class="nav-link" data-scroll-target="#country-specific-risk-drivers">Country-specific risk drivers</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  <li><a href="#business-implication" id="toc-business-implication" class="nav-link" data-scroll-target="#business-implication">Business Implication</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps</a></li>
+  <li><a href="#links" id="toc-links" class="nav-link" data-scroll-target="#links">Links</a></li>
   </ul>
 </nav>
     </div>
@@ -759,10 +772,561 @@ Other lifestyle variables, including smoking and alcohol use, have weaker direct
 <p><img src="p_images/heart7.png" class="img-fluid" style="width:100.0%" alt="Correlation plot between heart attack risk and lifestyle variables"></p>
 </div>
 </div>
-
-
 </section>
 </section>
+</section>
+<section id="tools" class="level1">
+<h1>Tools</h1>
+<p>Modeling and data: <strong>R</strong> <br> Visualization and reporting: <strong>Tableau</strong> <br></p>
+</section>
+<section id="methods-and-approach" class="level1">
+<h1>Methods and Approach</h1>
+<p>To predict heart attack risk, we trained and compared <strong>six different classification models</strong>.<br>
+Our goal was to identify the model that performs best on unseen data while staying clinically interpretable.<br>
+We evaluated each model primarily on <strong>test accuracy</strong>, using the same train/test split strategy described above.</p>
+<section id="models-evaluated" class="level4">
+<h4 class="anchored" data-anchor-id="models-evaluated">Models evaluated</h4>
+<p><strong>1. Logistic Regression</strong><br>
+A linear, probability-based classifier. It estimates the chance that a patient is “At Risk” given their features.<br>
+Strengths: simple, interpretable, easy to explain to clinicians.<br>
+Limitation: assumes a mostly linear relationship between predictors and risk.</p>
+<p><strong>2. Naive Bayes</strong><br>
+A probabilistic classifier that uses Bayes’ rule to estimate how likely each class is, given the input features. It assumes the features are conditionally independent once you know the class, which keeps the math very simple and fast.<br>
+Strengths: works well on high-dimensional data, easy to train, very fast, and often surprisingly strong even with limited data.<br>
+Limitation: the independence assumption is usually not true in real data, so performance can drop when features are strongly correlated.</p>
+<p><strong>3. k-Nearest Neighbors (k-NN)</strong><br>
+A distance-based model. For a new patient, it looks at the most similar patients in the training set and votes.<br>
+Strengths: non-parametric, can capture local patterns.<br>
+Limitations: can be memory-intensive and sensitive to scaling; performance drops in high dimensions if features are noisy.</p>
+<p><strong>4. Decision Tree</strong><br>
+A rule-based model that splits patients into groups using yes/no questions (for example, “Is systolic &gt; X?”).<br>
+Strengths: highly interpretable, mirrors clinical reasoning.<br>
+Limitation: can overfit if not pruned.</p>
+<p><strong>5. Random Forest</strong><br>
+An ensemble of many decision trees that vote together.<br>
+Strengths: higher accuracy and more stability than a single tree; reduces overfitting.<br>
+Limitation: less interpretable than a single tree, but still allows feature importance analysis.</p>
+<p><strong>6. Support Vector Machine (SVM)</strong><br>
+Finds the best separating boundary (hyperplane) between “At Risk” and “No Risk,” and can use kernels to handle non-linear boundaries.<br>
+Strengths: strong performance in high-dimensional feature spaces.<br>
+Limitation: less intuitive to explain clinically compared to logistic regression or trees.</p>
+</section>
+<section id="model-selection" class="level4">
+<h4 class="anchored" data-anchor-id="model-selection">Model selection</h4>
+<p>Each model was trained on the <strong>balanced training set</strong> and tested on the <strong>realistic test set</strong> (with the original class ratio).<br>
+We compared their <strong>test accuracy</strong> side by side to understand which approach generalizes best.<br>
+That final comparison guides which model is most promising for deployment and clinical interpretation.</p>
+</section>
+</section>
+<section id="model-results-and-selection" class="level1">
+<h1>Model results and selection</h1>
+<section id="trained-on-worldwide-data" class="level3">
+<h3 class="anchored" data-anchor-id="trained-on-worldwide-data">Trained on Worldwide Data</h3>
+<p>We trained all six models (Logistic Regression, Naive Bayes, k-NN, Decision Tree, Random Forest, and SVM) on our processed training data and then evaluated them on the held-out test set.<br>
+Our main comparison metric was <strong>test accuracy</strong>, using the same train/test split strategy described earlier.</p>
+<table class="feature-table">
+<thead>
+<tr>
+<th>
+Model
+</th>
+<th>
+Test Accuracy
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Logistic Regression
+</td>
+<td>
+55%
+</td>
+</tr>
+<tr>
+<td>
+Naive Bayes
+</td>
+<td>
+50%
+</td>
+</tr>
+<tr>
+<td>
+k-NN
+</td>
+<td>
+51.67%
+</td>
+</tr>
+<tr>
+<td>
+Decision Tree
+</td>
+<td>
+51.32%
+</td>
+</tr>
+<tr>
+<td>
+Random Forest
+</td>
+<td>
+51.37%
+</td>
+</tr>
+<tr>
+<td>
+<strong>SVM (Support Vector Machine)</strong>
+</td>
+<td>
+<strong>64.23%</strong>
+</td>
+</tr>
+</tbody>
+</table>
+<section id="logistic-regression" class="level4">
+<h4 class="anchored" data-anchor-id="logistic-regression">1. Logistic Regression</h4>
+<p><strong>How we built the model</strong></p>
+<ol type="1">
+<li><p><strong>Start with all features</strong><br>
+We first fit a full logistic regression model on <code>data.train</code> using every available predictor.</p></li>
+<li><p><strong>Select the most important predictors</strong><br>
+We ran stepwise feature selection (AIC-based StepAIC). This procedure automatically adds and removes variables to find the smallest set of predictors that still explains the outcome well.</p></li>
+<li><p><strong>Keep only the best predictors</strong><br>
+After selection, we kept only the strongest variables for heart attack risk. The final model focused on:</p>
+<ul>
+<li><strong>Cholesterol</strong></li>
+<li><strong>Heart.Rate</strong></li>
+<li><strong>Triglycerides</strong></li>
+<li><strong>Systolic</strong> (systolic blood pressure)</li>
+<li><strong>Northern.Hemisphere</strong></li>
+</ul></li>
+<li><p><strong>Standardize numeric features</strong><br>
+We created a scaled copy of the training data and standardized all numeric predictors (mean = 0, SD = 1). This helps the model stay stable and makes the coefficients more comparable.</p></li>
+<li><p><strong>Refit the final model</strong><br>
+We retrained logistic regression using only the selected predictors and the standardized data.</p></li>
+</ol>
+<table class="feature-table">
+<thead>
+<tr>
+<th>
+</th>
+<th>
+Train Accuracy
+</th>
+<th>
+Test Accuracy
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>Logistic Regression</strong>
+</td>
+<td>
+55%
+</td>
+<td>
+50%
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="naive-bayes" class="level4">
+<h4 class="anchored" data-anchor-id="naive-bayes">2. Naive Bayes</h4>
+<p><strong>How we built the model</strong></p>
+<ul>
+<li>We trained a Naive Bayes classifier on the original dataset using only the variables that showed the strongest correlation with heart attack risk:
+<ul>
+<li><strong>Cholesterol</strong></li>
+<li><strong>Heart.Rate</strong></li>
+<li><strong>Triglycerides</strong></li>
+<li><strong>Systolic</strong> (systolic blood pressure)</li>
+<li><strong>Northern.Hemisphere</strong></li>
+</ul></li>
+<li>We focused on these features to reduce noise and keep only the most informative predictors.</li>
+</ul>
+<p>Naive Bayes assumes that the input features are conditionally independent given the class label.<br>
+This makes it very fast to train and easy to interpret.</p>
+<table class="feature-table">
+<thead>
+<tr>
+<th>
+</th>
+<th>
+Train Accuracy
+</th>
+<th>
+Test Accuracy
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>Naive Bayes</strong>
+</td>
+<td>
+55%
+</td>
+<td>
+50%
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="k-nearest-neighbors-k-nn" class="level4">
+<h4 class="anchored" data-anchor-id="k-nearest-neighbors-k-nn">3. k-Nearest Neighbors (k-NN)</h4>
+<p><strong>How we built the model</strong></p>
+<ul>
+<li>We treated k-NN as a distance-based classifier: a new patient is labeled based on the most similar patients in the training set.</li>
+<li>We prepared the data using <strong>feature normalization</strong>, since k-NN is sensitive to scale:
+<ul>
+<li>First tried <strong>Min-Max normalization</strong>, which gave ~50.4% accuracy.</li>
+<li>Then used <strong>Z-score standardization</strong> (mean = 0, std = 1), which improved performance to ~51.7%.</li>
+</ul></li>
+<li>We tuned the model by testing multiple values of <strong>k</strong> (the number of neighbors), using odd values from 1 to 99.</li>
+<li>We selected the best k based on the lowest test error.</li>
+</ul>
+<table class="feature-table">
+<thead>
+<tr>
+<th>
+</th>
+<th>
+Train Accuracy
+</th>
+<th>
+Test Accuracy
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>KNN</strong>
+</td>
+<td>
+56%
+</td>
+<td>
+51%
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="decision-tree" class="level4">
+<h4 class="anchored" data-anchor-id="decision-tree">4. Decision Tree</h4>
+<p><strong>How we built the model</strong></p>
+<ul>
+<li>We trained a classification tree using <strong>Heart.Attack.Ris</strong> as the target.</li>
+<li>We used <strong>rpart()</strong> to grow the full tree on the training data.</li>
+<li>We then used <strong>cross-validation</strong> to find the best cp (complexity parameter), which helps control overfitting.</li>
+<li>After selecting the optimal <strong>cp</strong>, we <strong>pruned</strong> the tree using <strong>prune()</strong> to keep only the most useful splits.</li>
+<li>Finally, we predicted on both the training set and the test set, and calculated confusion matrices and accuracy.</li>
+</ul>
+<table class="feature-table">
+<thead>
+<tr>
+<th>
+</th>
+<th>
+Train Accuracy
+</th>
+<th>
+Test Accuracy
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>Decision Tree</strong>
+</td>
+<td>
+68%
+</td>
+<td>
+64%
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="random-forest" class="level4">
+<h4 class="anchored" data-anchor-id="random-forest">5. Random Forest</h4>
+<p><strong>How we built the model</strong></p>
+<ul>
+<li>We first fit a Random Forest on the full training dataset using all available predictors.</li>
+<li>We then looked at the model’s <strong>feature importance</strong> to see which variables contributed most to predicting heart attack risk.</li>
+<li>We performed <strong>hyperparameter tuning</strong> on <code>mtry</code> (the number of variables randomly selected at each split).
+<ul>
+<li>We chose the <code>mtry</code> value that produced the lowest out-of-bag (OOB) error.<br>
+</li>
+<li>The best setting was <strong>mtry = 3</strong>.</li>
+</ul></li>
+<li>Finally, we retrained the Random Forest using the most important features and the best <code>mtry</code>.</li>
+</ul>
+<table class="feature-table">
+<thead>
+<tr>
+<th>
+</th>
+<th>
+Train Accuracy
+</th>
+<th>
+Test Accuracy
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>Random Forest</strong>
+</td>
+<td>
+100%
+</td>
+<td>
+52%
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="support-vector-machine-svm" class="level4">
+<h4 class="anchored" data-anchor-id="support-vector-machine-svm">6. Support Vector Machine (SVM)</h4>
+<p><strong>How we built the model</strong></p>
+<ul>
+<li>We prepared the input data for SVM by:
+<ul>
+<li>Converting all binary variables to factors</li>
+<li>Standardizing numeric features using <code>scale()</code> so they are on a comparable range</li>
+</ul></li>
+<li>We treated SVM as a margin-based classifier: it tries to find the best separating boundary between “At Risk” and “No Risk.”</li>
+</ul>
+<p><strong>Hyperparameter tuning</strong></p>
+<ul>
+<li>We tuned the model using a radial (RBF-style) kernel.</li>
+<li>We searched over:
+<ul>
+<li><strong>gamma</strong> values: 0.5, 1, 2, 5<br>
+</li>
+<li><strong>cost</strong> values: 0.01, 0.1, 1</li>
+</ul></li>
+<li>We selected the setting that produced the best validation accuracy.</li>
+<li><strong>Best model:</strong> <code>kernel = "radial"</code>, <code>gamma = 5</code>, <code>cost = 0.01</code></li>
+</ul>
+<table class="feature-table">
+<thead>
+<tr>
+<th>
+</th>
+<th>
+Train Accuracy
+</th>
+<th>
+Test Accuracy
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>Random Forest</strong>
+</td>
+<td>
+67%
+</td>
+<td>
+64%
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="trained-on-subset-data" class="level3">
+<h3 class="anchored" data-anchor-id="trained-on-subset-data">Trained on Subset data</h3>
+<p>Because most of our full-population models had only moderate accuracy, we tested the idea that <strong>heart attack risk may behave differently by country</strong>. Some factors (diet, access to care, lifestyle, environment) are country-specific, so a single global model might be averaging over very different patterns.</p>
+<p>We first identified countries with stronger correlation signals for heart attack risk in our data and selected four of them: <strong>Italy, Japan, United States, and China</strong>. Then we created country-specific subsets using the following process:</p>
+<ul>
+<li><strong>Filter</strong> the training and test sets (<code>data1.train</code> / <code>data1.test</code>) to keep only rows from one country at a time.</li>
+<li><strong>Remove dummy columns that are all zeros</strong> within that country (for example, other country indicators that no longer apply).</li>
+<li><strong>Retrain and evaluate all six models separately for each country.</strong></li>
+</ul>
+<p><strong>Best performance by country – KNN</strong></p>
+<p>Among the models we re-ran on each country subset, <strong>k-NN performed best overall</strong>. Below are the k-NN test accuracies for each country:</p>
+<table class="feature-table">
+<thead>
+<tr>
+<th>
+Country
+</th>
+<th>
+K value
+</th>
+<th>
+Test Accuracy (k-NN)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Italy
+</td>
+<td>
+89
+</td>
+<td>
+68%
+</td>
+</tr>
+<tr>
+<td>
+Japan
+</td>
+<td>
+7
+</td>
+<td>
+66%
+</td>
+</tr>
+<tr>
+<td>
+United States
+</td>
+<td>
+79
+</td>
+<td>
+49%
+</td>
+</tr>
+<tr>
+<td>
+China
+</td>
+<td>
+1
+</td>
+<td>
+48%
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="p_images/heart8.png" class="img-fluid" style="width:34.0%"> <img src="p_images/heart9.png" class="img-fluid" style="width:35.0%"> <img src="p_images/heart10.png" class="img-fluid" style="width:34.0%"> <img src="p_images/heart11.png" class="img-fluid" style="width:35.0%"></p>
+</section>
+<section id="country-specific-risk-drivers" class="level3">
+<h3 class="anchored" data-anchor-id="country-specific-risk-drivers">Country-specific risk drivers</h3>
+<p>After training k-NN separately on each country, we looked at which features were most influential for predicting heart attack risk in that country.<br>
+The lists below show the top three factors for each country, along with the direction of the relationship:</p>
+<ul>
+<li><strong>Positive value (+)</strong> → higher value is associated with <strong>higher predicted risk</strong></li>
+<li><strong>Negative value (–)</strong> → higher value is associated with <strong>lower predicted risk / protective effect</strong></li>
+</ul>
+<p><strong>United States</strong></p>
+<ol type="1">
+<li>Physical.Activity.Days.Per.Week (−0.1806)<br>
+</li>
+<li>Systolic.Blood.Pressure (+0.1449)<br>
+</li>
+<li>Income (−0.0952)</li>
+</ol>
+<p>Interpretation: Lower physical activity and higher systolic blood pressure are linked to higher risk. Income also appears in the model, suggesting social/economic factors may play a role.</p>
+<p><strong>Italy</strong></p>
+<ol type="1">
+<li>BMI (+0.1694)<br>
+</li>
+<li>Previous.Heart.Problems (−0.1424)<br>
+</li>
+<li>Income (+0.0942)</li>
+</ol>
+<p>Interpretation: Higher BMI is associated with elevated risk. Prior heart problems still matter, but the negative sign suggests the way it’s encoded in this subset may reflect treated/managed cases.</p>
+<p><strong>Japan</strong></p>
+<ol type="1">
+<li>Previous.Heart.Problems (−0.3429)<br>
+</li>
+<li>Heart.Rate (+0.1970)<br>
+</li>
+<li>Unhealthy.Diet (−0.1574)</li>
+</ol>
+<p>Interpretation: Elevated heart rate shows up as a strong risk indicator. Diet pattern also contributes to the model’s decision.</p>
+<p><strong>China</strong></p>
+<ol type="1">
+<li>Stress.Level (−0.1589)<br>
+</li>
+<li>Triglycerides (+0.1219)<br>
+</li>
+<li>Cholesterol (+0.1023)</li>
+</ol>
+<p>Interpretation: Blood lipid measures (triglycerides, cholesterol) are important risk signals. Stress also appears in the model for this population.</p>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>Our models suggest that predicting heart attack risk is possible, but still challenging with the data we have.</p>
+<p>At the global level, the <strong>Support Vector Machine (SVM)</strong> was the top-performing model, reaching about <strong>64% test accuracy</strong>. While this was higher than Logistic Regression, Random Forest, k-NN, and others on the full dataset, 64% is not strong enough for confident clinical use. In other words, the model can see some signal, but it is not yet reliable as a real-world screening tool.</p>
+<p>However, when we looked at specific countries instead of the entire population, we saw more promising results. After subsetting data for four higher-signal countries (Italy, Japan, United States, China), we retrained models within each country. In those country-specific tests, <strong>k-NN performed best</strong>, especially in <strong>Italy (68% accuracy)</strong> and <strong>Japan (66% accuracy)</strong>. This suggests that heart attack risk drivers may be more consistent within a single country than across the world — lifestyle patterns, healthcare access, and physiology may interact differently by region.</p>
+<p>We also examined the top factors associated with predicted risk in each country.</p>
+<ul>
+<li>In <strong>Italy</strong>, the most important signals pointed toward <strong>BMI / obesity</strong>, <strong>income level</strong>, and <strong>history of heart problems</strong>, which suggests prevention could focus on weight management, access for lower-income groups, and follow-up care for previously high-risk patients.<br>
+</li>
+<li>In <strong>Japan</strong>, key drivers included <strong>heart rate</strong>, <strong>diet quality</strong>, and <strong>history of heart issues</strong>, which points toward monitoring cardiovascular stress, improving diet, and providing targeted care to known high-risk individuals.</li>
+</ul>
+<p>These country-level insights are useful because they hint that intervention strategies may need to be <strong>localized</strong>, not one-size-fits-all.</p>
+</section>
+<section id="limitations" class="level1">
+<h1>Limitations</h1>
+<p>A few technical observations:</p>
+<ul>
+<li><p><strong>k-NN did well on country-level subsets</strong> because it makes very few assumptions about the shape of the data. k-NN is a local, distance-based model — it can adapt to non-linear boundaries and cluster-like patterns. That’s helpful when risk depends on subtle combinations of lifestyle and clinical variables that vary by population.</p></li>
+<li><p><strong>Tree-based models behaved oddly.</strong><br>
+Our Random Forest reached <strong>100% training accuracy</strong> but only about <strong>52% test accuracy</strong>, which is a clear sign of overfitting. Even after tuning (e.g.&nbsp;choosing the best <code>mtry</code>), the model still memorized the training data more than it generalized. This likely reflects limitations in the dataset: synthetic or AI-generated structure, small effective sample size within subgroups, and noisy relationships between predictors and the target.</p></li>
+<li><p><strong>Logistic Regression and Naive Bayes</strong> stayed around ~50–55% accuracy on the test set. They were stable (little overfitting), but they couldn’t capture enough complexity to make strong predictions at the global scale.</p></li>
+</ul>
+<hr>
+<p>Data limitation:</p>
+<p><strong>Data quality and source.</strong><br>
+The dataset appears to be AI-generated / synthetic rather than clinical-grade EHR data. That means the relationships may not fully reflect real-world physiology, access to care, or reporting patterns.</p>
+<p><strong>Sample size within subgroups.</strong><br>
+Once we subset by country, the number of usable rows per country dropped. That makes the models more sensitive to noise and increases the risk that the learned “signals” are unstable.</p>
+<p><strong>Generalizability.</strong><br>
+Even our best models (k-NN in Italy and Japan) still sit in the 60–70% accuracy range. These are promising for research but not medically actionable without further validation.</p>
+</section>
+<section id="business-implication" class="level1">
+<h1>Business Implication</h1>
+<p>Our project suggests a practical way for healthcare organizations, insurers, and even employers to act before a heart attack happens instead of after. Rather than trying to use one global risk model for everyone, the results point toward building local models for specific populations (for example, by country or region) and using those models to flag people who are more likely to be at risk. Even if the model isn’t perfect, that early signal can be used to offer preventive outreach, coaching, screenings, or follow-up care to the right groups before an emergency occurs. That can mean better outcomes for patients, less strain on the healthcare system, and lower costs from avoidable cardiac events.</p>
+</section>
+<section id="next-steps" class="level1">
+<h1>Next steps</h1>
+<ul>
+<li><p><strong>Get better data.</strong><br>
+Collect larger, real-world health data (vitals, labs, reported behavior, history) from multiple populations. Ideally, include clinical labels confirmed by diagnosis.</p></li>
+<li><p><strong>Expand geographic coverage.</strong><br>
+Build and evaluate localized models for more countries and regions to see where population-specific risk modeling is strongest.</p></li>
+<li><p><strong>Improve model tuning.</strong><br>
+Explore more systematic hyperparameter search (especially for SVM and Random Forest) and fairness / bias checks across demographic groups.</p></li>
+<li><p><strong>Move beyond accuracy.</strong><br>
+For real screening, we also care about <strong>recall</strong> (catching high-risk patients) and <strong>precision</strong> (avoiding false alarms). A model doesn’t need to be perfect to be useful — it needs to be good at prioritizing who should get follow-up.</p></li>
+</ul>
+<p><strong>Bottom line:</strong><br>
+A single global model struggled to capture heart attack risk reliably. But when we narrowed the problem to specific countries, accuracy improved and meaningful local risk drivers emerged. That suggests the path forward is not “one model for everyone,” but rather <strong>population-aware models + targeted prevention strategies.</strong></p>
+</section>
+<section id="links" class="level1">
+<h1>Links</h1>
+
+
 </section>
 
 </main> <!-- /main -->
