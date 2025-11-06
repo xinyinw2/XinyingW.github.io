@@ -1,0 +1,33 @@
+---
+title: "Customer Segmentation Analysis"
+date: 2025-03-20
+image: p_images/cust_seg.jpg
+categories: [Python, Tableau, Classification]
+description: "Segment customers with K means, predict each new shopper’s segment and likelihood of using discounts, and use those insights to deliver targeted marketing that reduces waste and lifts revenue."
+page-layout: article
+page-navigation: true
+---
+### Overview
+
+Businesses operating in competitive markets must constantly refine their marketing strategies to attract and retain customers effectively. Understanding who the customers are, what they value, and how they behave is central to making data-driven marketing decisions.
+
+This project focuses on developing a customer segmentation framework that enables businesses to deliver personalized marketing campaigns. Using customer attributes such as demographics, purchase history, and behavioral data, we applied K-Means clustering to group existing customers into distinct segments with shared characteristics.
+
+Once the segments were identified, a predictive classification model was trained to assign future customers to the most relevant segment. Additionally, a discount usage prediction model was built to estimate the likelihood of each customer using a discount during purchase. Combining these insights allows businesses to allocate marketing resources efficiently, tailor promotional content to each group, and optimize overall revenue potential.
+
+By transforming raw customer data into actionable insights, the project demonstrates how segmentation and predictive modeling can improve marketing effectiveness and reduce unnecessary spending.
+
+### Problem Statement
+
+Traditional marketing strategies often rely on a one-size-fits-all approach, where the same campaigns are shown to all customers regardless of their needs or behaviors. This results in **inefficient resource allocation** and **lower customer engagement**, as not all customers respond similarly to identical offers.
+
+The key problem addressed in this project is how to **identify meaningful customer segments** and **predict future customer behavior** to support data-driven marketing decisions. Specifically, this project aims to answer the following questions:
+
+1. How can we categorize customers into well-defined groups that share similar characteristics or purchase behaviors?  
+2. How can we build a model to accurately assign new customers to these segments?  
+3. How can we predict which customers are most likely to use discounts, enabling businesses to target incentives strategically?
+
+By solving these challenges, this project provides a scalable analytical framework for **personalized marketing**, helping businesses maximize both customer satisfaction and profitability.
+
+
+### Data
