@@ -2,6 +2,7 @@
   {
     "listing": "/projects/index.html",
     "items": [
+      "/projects/cust_seg.html",
       "/projects/job_rec.html",
       "/projects/heart.html",
       "/projects/cust_churn.html"
