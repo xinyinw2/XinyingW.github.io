@@ -28,6 +28,8 @@ I bring hands-on experience in data analytics, process optimization, and data-dr
 
 My academic projects include designing SQL-based financial dashboards to assess credit card fraud risk, predicting heart attack probability using R-based machine learning models, and modeling telecom customer churn with Python and Power BI.
 
+I currently volunteer as a Community Budget Advisory Committee member for Multnomah County in the Portland area of Oregon, where I contribute to budget review and provide community informed feedback to support transparent and equitable public resource allocation.
+
 Proficient in Python, R, SQL, Tableau, Power BI, and Excel, I excel at transforming raw data into actionable insights that improve business performance, strengthen compliance, and guide strategic decisions. Passionate about leveraging analytics to drive operational efficiency and innovation across organizations.
 
 ## Education

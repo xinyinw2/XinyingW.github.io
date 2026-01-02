@@ -698,3 +698,5 @@ A single global model struggled to capture heart attack risk reliably. But when 
 
 
 # Links
+**Dataset Source:**  
+[Heart Attack Risk Prediction Dataset on Kaggle](https://www.kaggle.com/datasets/iamsouravbanerjee/heart-attack-prediction-dataset)

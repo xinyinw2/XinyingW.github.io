@@ -122,6 +122,14 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#problem-statement" id="toc-problem-statement" class="nav-link" data-scroll-target="#problem-statement">Problem Statement</a></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
   <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a></li>
+  <li><a href="#tools" id="toc-tools" class="nav-link" data-scroll-target="#tools">Tools</a></li>
+  <li><a href="#key-methods-and-approach" id="toc-key-methods-and-approach" class="nav-link" data-scroll-target="#key-methods-and-approach">Key Methods and Approach</a></li>
+  <li><a href="#results-and-findings" id="toc-results-and-findings" class="nav-link" data-scroll-target="#results-and-findings">Results and Findings</a></li>
+  <li><a href="#breakdown-of-cluster-profilessamples" id="toc-breakdown-of-cluster-profilessamples" class="nav-link" data-scroll-target="#breakdown-of-cluster-profilessamples">Breakdown of Cluster Profiles(Samples)</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#business-implications" id="toc-business-implications" class="nav-link" data-scroll-target="#business-implications">Business Implications</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  <li><a href="#links" id="toc-links" class="nav-link" data-scroll-target="#links">Links</a></li>
   </ul>
 </nav>
     </div>
@@ -163,15 +171,15 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview" class="level3">
-<h3 class="anchored" data-anchor-id="overview">Overview</h3>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>Businesses operating in competitive markets must constantly refine their marketing strategies to attract and retain customers effectively. Understanding who the customers are, what they value, and how they behave is central to making data-driven marketing decisions.</p>
 <p>This project focuses on developing a customer segmentation framework that enables businesses to deliver personalized marketing campaigns. Using customer attributes such as demographics, purchase history, and behavioral data, we applied K-Means clustering to group existing customers into distinct segments with shared characteristics.</p>
 <p>Once the segments were identified, a predictive classification model was trained to assign future customers to the most relevant segment. Additionally, a discount usage prediction model was built to estimate the likelihood of each customer using a discount during purchase. Combining these insights allows businesses to allocate marketing resources efficiently, tailor promotional content to each group, and optimize overall revenue potential.</p>
 <p>By transforming raw customer data into actionable insights, the project demonstrates how segmentation and predictive modeling can improve marketing effectiveness and reduce unnecessary spending.</p>
 </section>
-<section id="problem-statement" class="level3">
-<h3 class="anchored" data-anchor-id="problem-statement">Problem Statement</h3>
+<section id="problem-statement" class="level2">
+<h2 class="anchored" data-anchor-id="problem-statement">Problem Statement</h2>
 <p>Traditional marketing strategies often rely on a one-size-fits-all approach, where the same campaigns are shown to all customers regardless of their needs or behaviors. This results in <strong>inefficient resource allocation</strong> and <strong>lower customer engagement</strong>, as not all customers respond similarly to identical offers.</p>
 <p>The key problem addressed in this project is how to <strong>identify meaningful customer segments</strong> and <strong>predict future customer behavior</strong> to support data-driven marketing decisions. Specifically, this project aims to answer the following questions:</p>
 <ol type="1">
@@ -183,8 +191,8 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 <p>By solving these challenges, this project provides a scalable analytical framework for <strong>personalized marketing</strong>, helping businesses maximize both customer satisfaction and profitability.</p>
 </section>
-<section id="data" class="level3">
-<h3 class="anchored" data-anchor-id="data">Data</h3>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>This project uses the customer features dataset named “Customer Shopping Trends Dataset” from Kaggle. This dataset describes demographics, purchasing behavior, product preferences, and promotional interactions. Key variables include age, gender, purchase amount, payment method, purchase frequency, and customer review ratings, along with information on items purchased, shopping season, and discount usage.</p>
 <p>The dataset provides a structured foundation for analyzing customer behavior, supporting customer segmentation, predictive modeling, and data-driven marketing strategies.</p>
 <p><strong>Snapshot</strong></p>
@@ -290,9 +298,266 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </section>
-<section id="exploratory-data-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h3>
+<section id="exploratory-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
 <p>As part of our Exploratory Data Analysis phase, we applied visualization techniques that gave us a more comprehensive understanding of our raw dataset.</p>
+<section id="age-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="age-distribution">Age Distribution</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>This bar chart outlines the age distribution of our dataset’s customer base. The ages are fairly evenly distributed, with the minimum age being 18 years old and the maximum age being 70 years old.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/cust_seg2.png" class="img-fluid" style="width:100.0%" alt="Age Distribution"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="gender-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="gender-distribution">Gender Distribution</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>This pie chart outlines the gender distribution of our dataset’s customer base. 68% of the dataset’s customers are Male, whereas the remaining 32% are Female.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/cust_seg3.png" class="img-fluid" style="width:100.0%" alt="Gender Distribution"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="product-category-breakdown" class="level4">
+<h4 class="anchored" data-anchor-id="product-category-breakdown">Product Category Breakdown</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>This pie chart outlines the proportion of purchases across different product categories, revealing that clothing accounts for the largest share (44.5%), followed by accessories and footwear. This breakdown provides valuable insight into overall shopping priorities, helping us cluster customers based on their category preferences and refine product-specific marketing strategies accordingly.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/cust_seg4.png" class="img-fluid" style="width:100.0%" alt="Product Category Breakdown"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="distribution-of-purchase-amounts" class="level4">
+<h4 class="anchored" data-anchor-id="distribution-of-purchase-amounts">Distribution of Purchase Amounts</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>This histogram outlines the distribution of purchase amounts, showing a relatively even spread of transactions across the $20 to $100 range, with a slight increase in purchases at the higher end (around $100). This pattern suggests diverse spending behaviors among customers, which could be instrumental in clustering them based on purchase power and tailoring promotions or pricing strategies to target different spending tiers.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/cust_seg5.png" class="img-fluid" style="width:100.0%" alt="Distribution of Purchase Amounts"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="discount-usage-among-customers" class="level4">
+<h4 class="anchored" data-anchor-id="discount-usage-among-customers">Discount Usage Among Customers</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>This pie chart outlines the proportion of purchases made with and without discounts, showing that 57% of transactions occurred without discounts while 43% involved some form of discount. This insight highlights varied customer sensitivity to promotions, which could be valuable in clustering efforts aimed at distinguishing deal-seekers from full-price shoppers for targeted marketing initiatives.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/cust_seg6.png" class="img-fluid" style="width:100.0%" alt="Discount Usage Among Customers"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="purchase-frequency-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="purchase-frequency-distribution">Purchase Frequency Distribution</h4>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>This bar chart outlines the frequency of customer purchases, showing a slight tendency towards purchases made every 3 months, with other frequencies like annual, quarterly, and monthly being relatively balanced. This suggests a mix of habitual and occasional shoppers, which could be leveraged in clustering models to create segments based on shopping regularity and to tailor marketing strategies such as loyalty programs or seasonal promotions.</p>
+</div><div class="column" style="width:40%;">
+<p><img src="p_images/cust_seg7.png" class="img-fluid" style="width:100.0%" alt="Purchase Frequency Distribution"></p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="tools" class="level2">
+<h2 class="anchored" data-anchor-id="tools">Tools</h2>
+<p>Modeling and data: <strong>Python</strong> <br> Visualization and reporting: <strong>Tableau</strong>, <strong>Excel</strong> <br></p>
+</section>
+<section id="key-methods-and-approach" class="level2">
+<h2 class="anchored" data-anchor-id="key-methods-and-approach">Key Methods and Approach</h2>
+<p>To identify patterns in customer shopping behavior and derive actionable insights for data-driven, targeted marketing strategies, our project leveraged a K-Means clustering algorithm. By utilizing this unsupervised machine learning technique, we were able to identify distinct customer groups based on purchasing behaviors and demographic profile- thus supporting our data-driven decision-making for personalized marketing and customer engagement initiatives.</p>
+<section id="model-selection" class="level4">
+<h4 class="anchored" data-anchor-id="model-selection">Model Selection</h4>
+<ul>
+<li><p>Selected K Means clustering as the primary method for customer segmentation.</p></li>
+<li><p>Chosen due to the unsupervised nature of the problem, as customer groups were not predefined.</p></li>
+<li><p>Well suited for a mid sized dataset with 3,900 records, offering computational efficiency and scalability.</p></li>
+<li><p>Provides clear and interpretable cluster results that support business driven insights.</p></li>
+<li><p>Effective after preprocessing, as all features were transformed into numerical formats compatible with Euclidean distance calculations.</p></li>
+</ul>
+</section>
+<section id="evaluation-metrics" class="level4">
+<h4 class="anchored" data-anchor-id="evaluation-metrics">Evaluation Metrics</h4>
+<ul>
+<li><p>Evaluated clustering performance using metrics designed specifically for unsupervised learning.</p></li>
+<li><p>Used <strong>Within Cluster Sum of Squares (WCSS)</strong> to measure cluster compactness and cohesion.</p>
+<ul>
+<li>Calculated WCSS across a wide range of cluster counts from 2 to 99.<br>
+</li>
+<li>Applied the Elbow Method to identify diminishing returns as k increased.</li>
+</ul></li>
+<li><p>Used <strong>Silhouette Score</strong> to assess both cluster cohesion and separation.</p>
+<ul>
+<li>Values range from -1 to 1, with higher scores indicating better defined clusters.<br>
+</li>
+<li>Used to validate the optimal number of clusters selected using WCSS.</li>
+</ul></li>
+<li><p>Combined WCSS and Silhouette Score to balance intra cluster compactness and inter cluster separation, ensuring meaningful and interpretable customer segments.</p></li>
+</ul>
+</section>
+<section id="model-tuning" class="level4">
+<h4 class="anchored" data-anchor-id="model-tuning">Model Tuning</h4>
+<ul>
+<li><p>Applied the <strong>Elbow Method</strong> with the KneeLocator library to automatically identify the optimal number of clusters based on diminishing returns in WCSS.</p></li>
+<li><p>Validated the selected number of clusters using <strong>Silhouette Scores</strong> computed across the tested k range.</p>
+<ul>
+<li>Confirmed consistency when both metrics converged on similar k values.</li>
+</ul></li>
+<li><p>Performed <strong>cluster interpretation and feature variance analysis</strong> after finalizing the model.</p>
+<ul>
+<li>Identified key variables that differentiated customer segments.<br>
+</li>
+<li>Ensured clusters were not only statistically sound but also meaningful from a business perspective.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="results-and-findings" class="level2">
+<h2 class="anchored" data-anchor-id="results-and-findings">Results and Findings</h2>
+<p>Using K Means clustering, the dataset was segmented into <strong>25 distinct customer clusters</strong>, each representing unique combinations of demographics, shopping behaviors, and purchasing preferences. These clusters reveal meaningful differences in how customers interact with products, promotions, and payment channels, enabling targeted and data driven marketing strategies.</p>
+<hr>
+<section id="key-trends-across-customer-clusters" class="level4">
+<h4 class="anchored" data-anchor-id="key-trends-across-customer-clusters">Key Trends Across Customer Clusters</h4>
+<ul>
+<li><strong>Age Distribution</strong>
+<ul>
+<li>Several clusters are dominated by younger shoppers between ages 18 and 25.<br>
+</li>
+<li>Other clusters skew toward older customers aged 50 and above, reflecting different purchasing priorities and behaviors.</li>
+</ul></li>
+<li><strong>Purchase Frequency and Spending Patterns</strong>
+<ul>
+<li>Some clusters represent high engagement customers who shop frequently and spend larger amounts per transaction.<br>
+</li>
+<li>Other clusters consist of low engagement customers characterized by infrequent purchases and lower spending levels.</li>
+</ul></li>
+<li><strong>Promotions and Seasonality</strong>
+<ul>
+<li>Multiple clusters show strong responsiveness to discounts and seasonal promotions.<br>
+</li>
+<li>In contrast, certain clusters display consistent shopping behavior throughout the year with minimal sensitivity to promotions or seasonality.</li>
+</ul></li>
+<li><strong>Shopping Channel and Payment Preferences</strong>
+<ul>
+<li>Younger customer clusters tend to prefer online shopping and digital payment methods such as eWallets and credit cards.<br>
+</li>
+<li>Older customer clusters are more likely to favor in store purchases and traditional payment methods including cash and debit cards.</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="top-differentiating-features-across-clusters" class="level4">
+<h4 class="anchored" data-anchor-id="top-differentiating-features-across-clusters">Top Differentiating Features Across Clusters</h4>
+<p>The following variables were identified as the most influential in distinguishing customer segments:</p>
+<ul>
+<li>Age<br>
+</li>
+<li>Purchase Amount in USD<br>
+</li>
+<li>Purchase Frequency<br>
+</li>
+<li>Preferred Payment Method<br>
+</li>
+<li>Discount Applied<br>
+</li>
+<li>Shopping Season Preference</li>
+</ul>
+<hr>
+</section>
+<section id="key-metrics-across-clusters" class="level4">
+<h4 class="anchored" data-anchor-id="key-metrics-across-clusters">Key Metrics Across Clusters</h4>
+<p>This heatmap highlights variations in key metrics such as customer age, purchase amount, purchase frequency, and discount usage across all clusters. Notably, certain clusters exhibit high purchase frequency but lower spending, while others show larger transaction values but less frequent shopping. These insights can inform tailored strategies, such as targeting high-frequency, low-spend clusters with upselling opportunities and offering loyalty rewards to high-value shoppers.</p>
+<p><img src="p_images/cust_seg8.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="breakdown-of-cluster-profilessamples" class="level2">
+<h2 class="anchored" data-anchor-id="breakdown-of-cluster-profilessamples">Breakdown of Cluster Profiles(Samples)</h2>
+<p>To illustrate the diversity of customer behaviors uncovered by the K Means model, a subset of representative clusters is highlighted below. These clusters demonstrate clear differences in demographics, spending patterns, engagement levels, and sensitivity to promotions. Based on each cluster’s profile, targeted marketing strategies were developed to align business actions with customer preferences and maximize engagement and lifetime value.</p>
+<strong>Cluster Summary Table</strong>
+<div style="overflow:auto">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 44%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Cluster</th>
+<th style="text-align: left;">Profile summary</th>
+<th style="text-align: left;">Marketing recommendations</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td style="text-align: left;">High spending, fashion forward shoppers</td>
+<td style="text-align: left;">Influencer and social media, membership perks, personalized messaging, premium bundles, strategic discounting</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td style="text-align: left;">High spending, loyal, quality focused shoppers</td>
+<td style="text-align: left;">Premium messaging, VIP perks, value promos, retargeting, VIP services</td>
+</tr>
+<tr class="odd">
+<td>22</td>
+<td style="text-align: left;">Young, frequent shoppers with moderate spend</td>
+<td style="text-align: left;">Seasonal marketing, improve experience, loyalty without discounts, personalization, post purchase engagement</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td style="text-align: left;">Frequent, lower spending shoppers with size inclusive needs</td>
+<td style="text-align: left;">Onboarding, fit transparency, improve experience, targeted promos, apparel refreshes</td>
+</tr>
+<tr class="odd">
+<td>18</td>
+<td style="text-align: left;">Younger, satisfied, low spend high frequency</td>
+<td style="text-align: left;">Micro loyalty, social proof, affordable bundles, personalization, value drops</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td style="text-align: left;">Discount driven, size inclusive, low spend</td>
+<td style="text-align: left;">Flash sales, improve fit and service, seasonal drops, localized promos, retention incentives</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Key Observations from Sample Clusters</strong></p>
+<ol type="1">
+<li><p>Clusters vary significantly in age, spending power, and loyalty, ranging from high spending fashion forward customers to budget conscious frequent shoppers.</p></li>
+<li><p>Some clusters respond strongly to discounts and promotions, while others are more motivated by quality, exclusivity, and brand experience.</p></li>
+<li><p>Younger clusters tend to show higher engagement frequency but lower spend per transaction, whereas older clusters often demonstrate stronger loyalty and higher purchase amounts.</p></li>
+<li><p>Size inclusivity, customer experience, and post purchase engagement emerged as important drivers for several segments.</p></li>
+</ol>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>The successful development of the customer segmentation and segment prediction models enables businesses to clearly identify and understand distinct customer groups. The clustering model uncovers meaningful patterns in customer behavior, while the prediction model allows new and existing customers to be accurately assigned to the appropriate segment.</p>
+<p>Together, these models support personalized marketing strategies by aligning promotions, messaging, and product recommendations with specific customer segments. They also strengthen customer retention efforts by highlighting at risk groups and informing targeted engagement initiatives. Ultimately, the insights generated from this analysis help retail businesses improve inventory planning, refine sales strategies, and build stronger, long term customer relationships.</p>
+</section>
+<section id="business-implications" class="level2">
+<h2 class="anchored" data-anchor-id="business-implications">Business Implications</h2>
+<p>This project demonstrates how data driven customer segmentation can directly support smarter business decisions. By understanding customer behavior at a segment level, businesses can allocate marketing resources more efficiently, reduce ineffective discounting, and improve campaign performance.</p>
+<p>The ability to predict customer segments also enables proactive retention strategies, more accurate inventory planning, and tailored product offerings. Overall, these insights help organizations increase revenue, enhance customer satisfaction, and build sustainable, long term growth.</p>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<p>Future enhancements to this project could focus on refining cluster stability and expanding predictive capabilities. This includes experimenting with alternative clustering methods, incorporating additional behavioral or time based features, and retraining models with new data to capture evolving customer preferences.</p>
+<p>Further steps may also include integrating real time data for dynamic segmentation, conducting A B testing to measure the impact of segment specific marketing strategies, and deploying the models into a production environment to support ongoing business decision making.</p>
+</section>
+<section id="links" class="level2">
+<h2 class="anchored" data-anchor-id="links">Links</h2>
+<p><strong>Dataset Source:</strong><br>
+<a href="https://www.kaggle.com/datasets/iamsouravbanerjee/customer-shopping-trends-dataset">Customer Shopping Trends Dataset on Kaggle</a></p>
 
 
 </section>

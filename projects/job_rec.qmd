@@ -305,3 +305,5 @@ Because job listings are refreshed through automated scraping, recommendations s
 Finally, product analytics—queries, matches, clicks, and feedback—surface skill gaps, channel performance, and conversion bottlenecks for workforce planning. Together, these capabilities differentiate the platform for both employers and job seekers. Core KPIs to monitor include time-to-screen, time-to-offer, precision@K, candidate response rate, cost per hire, and fairness metrics across groups.
 
 ### Links
+**Dataset Source:**  
+[1.3M Jobs and Skills Dataset on Kaggle](https://www.kaggle.com/datasets/asaniczka/1-3m-linkedin-jobs-and-skills-2024/data?select=linkedin_job_postings.csv)

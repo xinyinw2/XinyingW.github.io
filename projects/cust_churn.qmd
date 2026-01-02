@@ -484,3 +484,5 @@ Our results are strong, but the target class is very imbalanced and Naive Bayes 
   * Calibrate and monitor both, then re evaluate once additional balanced data is available
 
 ### Links
+**Dataset Source:**  
+[Customer Churn Dataset on Kaggle](https://www.kaggle.com/datasets/abdullah0a/telecom-customer-churn-insights-for-analysis)

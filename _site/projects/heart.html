@@ -1325,6 +1325,8 @@ A single global model struggled to capture heart attack risk reliably. But when 
 </section>
 <section id="links" class="level1">
 <h1>Links</h1>
+<p><strong>Dataset Source:</strong><br>
+<a href="https://www.kaggle.com/datasets/iamsouravbanerjee/heart-attack-prediction-dataset">Heart Attack Risk Prediction Dataset on Kaggle</a></p>
 
 
 </section>
@@ -1403,7 +1405,7 @@ A single global model struggled to capture heart attack risk reliably. But when 
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/xinyinw2\.github\.io\/XinyingW\.github\.io\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
